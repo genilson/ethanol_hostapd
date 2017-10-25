@@ -90,7 +90,7 @@ void get_survey_dump_active(survey_info * v, char * intf_name, int frequency) {
 
   char * iw_path = get_path_to_iw();
 
-  // roda o comando iw com root
+  // runs command as root
   char cmd[2000];
   sprintf((char *)&cmd, "sudo %s dev %s survey dump", iw_path, intf_name);
   FILE *pp = popen(cmd, "r");
@@ -111,6 +111,13 @@ void get_survey_dump_active(survey_info * v, char * intf_name, int frequency) {
   }
 }
 
+/**
+ known bug: this command uses iw survey dump to get the noise
+            some devices only provide the noise for the current channel,
+            and other don't provide this information at all
+            in this case, the snr value is the same as the tx power,
+            because noise is zero
+ */
 double get_snr_ap(char * intf_name) {
   double snr = -1;
   // frequencia da interface

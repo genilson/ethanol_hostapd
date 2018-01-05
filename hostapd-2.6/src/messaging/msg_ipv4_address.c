@@ -101,11 +101,11 @@ void encode_msg_ip_address(msg_ip_address * h, char ** buf, int * buf_len) {
 
 void decode_msg_ip_address(char * buf, int buf_len, msg_ip_address ** h) {
 
-  *h = malloc(sizeof(msg_ip_address));
+	*h = malloc(sizeof(msg_ip_address));
   char * aux = buf;
-  decode_header(&aux, &(*h)->m_type, &(*h)->m_id,  &(*h)->m_size, &(*h)->p_version);
-  decode_char(&aux, &(*h)->sta_ip);
-  decode_int(&aux, &(*h)->sta_port);
+	decode_header(&aux, &(*h)->m_type, &(*h)->m_id,  &(*h)->m_size, &(*h)->p_version);
+	decode_char(&aux, &(*h)->sta_ip);
+	decode_int(&aux, &(*h)->sta_port);
   struc_ip_config * m = (struc_ip_config *) malloc(sizeof(struc_ip_config));
   decode_char(&aux, &m->intf_name);
   decode_char(&aux, &m->ip);
@@ -347,7 +347,6 @@ void process_msg_ipv4_address(char ** input, int input_len, char ** output, int 
   #endif
   free_msg_ip_address(&h);
 }
-
 
 void process_msg_ipv6_address(char ** input, int input_len, char ** output, int * output_len){
   msg_ip_address * h;

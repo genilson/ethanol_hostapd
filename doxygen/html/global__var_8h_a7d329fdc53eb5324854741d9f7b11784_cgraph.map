@@ -1,3 +1,5 @@
 <map id="survey_with_hostapd" name="survey_with_hostapd">
 <area shape="rect" id="node2" href="$global__var_8h.html#a5aedd50cfb75c297128426311f19c163" title="trigger_scan" alt="" coords="200,5,293,32"/>
+<area shape="rect" id="node3" href="$connect_8h.html#adcc8f95afbce1e2e56116d569371833c" title="trigger_scan_intf" alt="" coords="342,5,461,32"/>
+<area shape="rect" id="node4" href="$connect_8h.html#a4e2e1fbc266f9b0703deb64d122be583" title="which_path" alt="" coords="509,5,597,32"/>
 </map>

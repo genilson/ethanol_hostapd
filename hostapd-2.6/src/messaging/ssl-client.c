@@ -89,8 +89,10 @@
 #include "msg_mean_sta_stats.h"
 #include "msg_changed_ap.h"
 #include "msg_tos.h"
+#include "msg_mtu.h"
+#include "msg_txqueuelen.h"
 
-#define NUM_TIPOS_MENSAGENS_STR 125
+#define NUM_TIPOS_MENSAGENS_STR 129
 char * todas_opcoes[] = {
 "MSG_HELLO_TYPE",
 "MSG_BYE_TYPE",
@@ -216,7 +218,11 @@ char * todas_opcoes[] = {
 "MSG_CHANGED_AP",
 "MSG_TOS_CLEANALL",
 "MSG_TOS_ADD",
-"MSG_TOS_REPLACE"
+"MSG_TOS_REPLACE",
+"MSG_SET_MTU",
+"MSG_SET_TXQUEUELEN",
+"MSG_GET_HOSTAPD_CONF",
+"MSG_SET_HOSTAPD_CONF"
 };
 
 void call_msg_get_sta_statistics(char * hostname, int portnum, int * m_id, char * intf_name, char * sta_ip, int sta_port) {
@@ -594,7 +600,7 @@ void call_msg_get_ipv4_address(char *hostname, int portnum, int *m_id, char * in
 }
 
 void call_msg_set_ipv4_address(char *hostname, int portnum, int *m_id, char * intf_name, char * ip, char * netmask, char * gateway, unsigned int n_dns, char ** dns) {
-	struc_ip_config *h = (struc_ip_config *) malloc(sizeof(struc_ip_config));
+	struc_ip_config * h = (struc_ip_config *) malloc(sizeof(struc_ip_config));
 	if(strcmp(ip,"DHCP") != 0){
 		h->intf_name = intf_name;
 		h->ip = ip;
@@ -622,13 +628,13 @@ void call_msg_set_ipv4_address(char *hostname, int portnum, int *m_id, char * in
 
 void call_msg_get_ipv6_address(char *hostname, int portnum, int *m_id, char * intf_name) {
   printf("msg_ipv6_address:\n");
-  msg_ip_address * h1 = send_msg_get_ipv6_address(hostname, portnum, m_id, intf_name, NULL, 0);
+  struct msg_ip_address * h1 = send_msg_get_ipv6_address(hostname, portnum, m_id, intf_name, NULL, 0);
   printf_msg_ip_address(h1);
   free_msg_ip_address(&h1);
 }
 
 void call_msg_set_ipv6_address(char *hostname, int portnum, int *m_id, char * intf_name, char * ip, char * netmask, char * gateway, unsigned int n_dns, char ** dns) {
-	struc_ip_config *h = (struc_ip_config *) malloc(sizeof(struc_ip_config));
+	struc_ip_config * h = (struc_ip_config *) malloc(sizeof(struc_ip_config));
 	if(strcmp(ip,"DHCP") != 0){
 		h->intf_name = intf_name;
 		h->ip = ip;
@@ -924,7 +930,7 @@ void call_msg_beaconinfo(char *hostname, int portnum, int *m_id) {
     #define SSID "teste"
     b->ssid = malloc((strlen(SSID) + 1) * sizeof(char));
     strcpy(b->ssid, SSID);
-
+    memset(&b->addr, 0, sizeof(b->addr));
     b->channel = 1;
 
     b->num_rates = 3;
@@ -941,9 +947,9 @@ void call_msg_beaconinfo(char *hostname, int portnum, int *m_id) {
     b->fh_parameters = 20;
     b->fh_pattern_table = 30;
 
-    b->ds_parameter = 10;
+    memset(&b->ds_parameter, 0, sizeof(b->ds_parameter));
     b->cf_parameter = 11;
-    b->ibss_parameter = 12;
+    memset(&b->ibss_parameter, 0, sizeof(b->ibss_parameter));
 
     b->country.country_code = 100;
     b->country.environment = 101;
@@ -1809,8 +1815,35 @@ int main(int argc, char *argv[]) {
           int status = 1; // ok
           char * current_ap = "b0:aa:ab:ab:ac:03"; // storm
           send_msg_changed_ap(hostname, portnum, &m_id, status, current_ap, INTERFACE_WLAN);
-                break;
+          break;
       }
+      case MSG_TOS_CLEANALL: {
+          send_msg_tos_cleanall(hostname, portnum, &m_id);
+          break;
+      }
+      case MSG_TOS_ADD: {
+          send_msg_tos_add(hostname, portnum, &m_id,
+                      INTERFACE_WLAN, "udp", NULL, NULL, NULL, "5001", 1); // AC_BK
+          sleep(1);
+          send_msg_tos_add(hostname, portnum, &m_id,
+                      INTERFACE_WLAN, "udp", NULL, NULL, NULL, "5002", 0); // AC_BE
+          sleep(1);
+          break;
+      }
+      case MSG_TOS_REPLACE: {
+          send_msg_tos_replace(hostname, portnum, &m_id,
+                               1, INTERFACE_WLAN, "udp", NULL, NULL, NULL, "5001", 4); // AC_VI
+          break;
+      }
+      case MSG_SET_MTU: {
+          send_msg_set_mtu(hostname, portnum, &m_id, INTERFACE_WLAN, NULL, 0, 1200);
+          break;
+      }
+      case MSG_SET_TXQUEUELEN: {
+          send_msg_set_txqueuelen(hostname, portnum, &m_id, INTERFACE_WLAN, NULL, 0, 500);
+          break;
+      }
+
       default:
     		printf("Opção [%s] inválida!\n\n", opcao_lida);
     		printf("\n\n");

@@ -77,7 +77,8 @@ var searchData=
   ['ioctl_5finterfaces',['ioctl_interfaces',['../structioctl__interfaces.html',1,'']]],
   ['ip6addr',['ip6addr',['../structip6addr.html',1,'']]],
   ['ip_5faddress',['ip_address',['../structip__address.html',1,'']]],
-  ['ip_5fconfig',['ip_config',['../structip__config.html',1,'']]],
-  ['ip_5fconfig_5fv6',['ip_config_v6',['../structip__config__v6.html',1,'']]],
+  ['iw_5fband_5fbitrates',['iw_band_bitrates',['../structiw__band__bitrates.html',1,'']]],
+  ['iw_5fbitrates',['iw_bitrates',['../structiw__bitrates.html',1,'']]],
+  ['iw_5flink_5finfo_5ft',['iw_link_info_t',['../structiw__link__info__t.html',1,'']]],
   ['iwscan_5fstate',['iwscan_state',['../structiwscan__state.html',1,'']]]
 ];

@@ -7,6 +7,7 @@ var searchData=
   ['beacon_5freceived',['beacon_received',['../structbeacon__received.html',1,'']]],
   ['best_5fchannel',['best_channel',['../structwpa__event__data_1_1best__channel.html',1,'wpa_event_data']]],
   ['bitfield',['bitfield',['../structbitfield.html',1,'']]],
+  ['bitrate_5fentry',['bitrate_entry',['../structbitrate__entry.html',1,'']]],
   ['bootp_5fpkt',['bootp_pkt',['../structbootp__pkt.html',1,'']]],
   ['browser_5fcontext',['browser_context',['../structbrowser__context.html',1,'']]],
   ['browser_5fdata',['browser_data',['../structbrowser__data.html',1,'']]],

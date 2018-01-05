@@ -3,6 +3,8 @@
 
 #define FAIL    -1
 
+#define MYCERT_PEM "mycert.pem"
+
 /** defines a SSL connection */
 struct ssl_connection {
     SSL *ssl;

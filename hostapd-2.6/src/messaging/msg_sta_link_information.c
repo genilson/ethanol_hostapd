@@ -65,9 +65,8 @@ void decode_msg_sta_link_information(char * buf, int buf_len, struct msg_sta_lin
 void process_msg_sta_link_information(char ** input, int input_len, char ** output, int * output_len){
   struct msg_sta_link_information * h;
   decode_msg_sta_link_information (*input, input_len, &h);
-  
+
   /**************************************** FUNCAO LOCAL *************************/
-  #ifndef PROCESS_STATION
   if(h->sta_ip != NULL){
     struct msg_sta_link_information * h1 = get_msg_sta_link_information(h->sta_ip, h->sta_port, &h->m_id, h->intf_name, NULL, 0);
     if (h1) {
@@ -77,8 +76,9 @@ void process_msg_sta_link_information(char ** input, int input_len, char ** outp
       free_msg_sta_link_information(&h1);
     }
   }else
-  #endif
   {
+    #ifndef PROCESS_STATION
+    #endif
     //TODO : tratar casos da chamada do AP, pois o iw não retorna valores corretos quando o modo
     // de operação da interface = AP.
     struct sta_link_information * ret;
@@ -86,14 +86,14 @@ void process_msg_sta_link_information(char ** input, int input_len, char ** outp
       h->mac_address = ret->mac_address; ret->mac_address = NULL;
       h->ssid = ret->ssid; ret->ssid = NULL;
       h->freq = ret->freq;
-      free_sta_link_information(&ret);       
+      free_sta_link_information(&ret);
     }else{
       h->mac_address = NULL;
       h->ssid = NULL;
       h->freq = -1;
     }
   }
- 
+
   /**************************************** Fim FUNCAO LOCAL *************************/
   encode_msg_sta_link_information(h, output, output_len);
   #ifdef DEBUG
@@ -108,7 +108,7 @@ struct msg_sta_link_information * get_msg_sta_link_information(char * hostname, 
   struct ssl_connection h_ssl;
   struct msg_sta_link_information * h1 = NULL;
   // << step 1 - get connection
-  int err = get_ssl_connection(hostname, portnum, &h_ssl); 
+  int err = get_ssl_connection(hostname, portnum, &h_ssl);
   if (err == 0 && NULL != h_ssl.ssl) {
     int bytes;
     char * buffer;
@@ -117,19 +117,19 @@ struct msg_sta_link_information * get_msg_sta_link_information(char * hostname, 
     struct msg_sta_link_information h;
     h.m_type = (int) MSG_GET_LINK_INFO;
     h.m_id = (*id)++;
-    
+
     h.p_version = NULL;
     copy_string(&h.p_version, ETHANOL_VERSION);
-    
+
     h.intf_name = NULL;
     copy_string(&h.intf_name, intf_name);
 
     h.sta_ip = NULL;
     copy_string(&h.sta_ip, sta_ip);
-    
+
     h.sta_port = sta_port;
 
-    h.mac_address = NULL; 
+    h.mac_address = NULL;
     h.ssid = NULL;
     h.freq = 0;
 

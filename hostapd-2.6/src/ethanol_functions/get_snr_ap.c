@@ -90,7 +90,7 @@ void get_survey_dump_active(survey_info * v, char * intf_name, int frequency) {
 
   char * iw_path = get_path_to_iw();
 
-  // runs command as root
+  // roda o comando iw com root
   char cmd[2000];
   sprintf((char *)&cmd, "sudo %s dev %s survey dump", iw_path, intf_name);
   FILE *pp = popen(cmd, "r");

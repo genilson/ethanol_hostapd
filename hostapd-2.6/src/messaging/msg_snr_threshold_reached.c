@@ -105,23 +105,21 @@ void process_msg_snr_threshold_reached(char ** input, int input_len, char ** out
                 list_aps_range_t * aps_range = NULL; // keeps the list of aps in range and that belongs to ethanol
                 list_devices_t * ap; // aux pointer,
                 int i;
+                if(l_aps->num_aps == 1){
+                	free_msg_ap_in_range(&l_aps);
+                	l_aps = send_msg_get_ap_in_range(sta->hostname, sta->port_num, &m_id, h->intf_name, NULL, 0);
+
+                }
                 for(i = 0; i < l_aps->num_aps; i++) {
                     // keep only ethanol enabled aps
-                    printf("macap %s hmacap %s\n", l_aps->aps[i].mac_ap, h->mac_ap);
                     ap=find_ap(l_aps->aps[i].mac_ap);
 
                     if(ap)
-                    printf("mac achado %s\n", ap->mac_address);
-
-                	printf("signal %lld // Thresh %lld\n", (long long) l_aps->aps[i].signal, signal_threshold);
-
-                    printf("terceiro teste do if é: %s\n", ((long long) l_aps->aps[i].signal > signal_threshold)?"TRUE":"FALSE");
                     if (strcmp(l_aps->aps[i].mac_ap, h->mac_ap)!=0 && // ap is not the current ap
                         (ap=find_ap(l_aps->aps[i].mac_ap)) && ((long long) l_aps->aps[i].signal > signal_threshold))           // ap is in ethanol's list
                     {
 
                         // insert into aps_range,
-                        printf("mac %s\n", ap->mac_address);
                         insert_ap_range(i, ap, &aps_range);
                     }
                 }
@@ -130,7 +128,6 @@ void process_msg_snr_threshold_reached(char ** input, int input_len, char ** out
                     while (p) {
                         // get traffic info for each ethanol ap in range
                         msg_mean_sta_statistics * m = send_msg_mean_sta_statistics(p->ap->hostname, p->ap->port_num, &m_id, NULL, 0);
-                        print_msg_mean_sta_statistics(m);
                         if (m) {
                           p->tx = m->v->ns[0].tx_bytes;
                           p->rx = m->v->ns[0].rx_bytes;
@@ -166,7 +163,6 @@ void process_msg_snr_threshold_reached(char ** input, int input_len, char ** out
     #endif
   } else {
     // call the remote station
-    printf("\n\n\n\n\n\nEntrou onde não devia\n\n\n\n\n\n\n");
     struct msg_snr_threshold_reached * h1 = send_msg_snr_threshold_reached(h->sta_ip, h->sta_port, &h->m_id, NULL, 0, h->sta_mac,h->intf_name, h->mac_ap, h->snr);
     if (h1) {
         // use the response to set the relayed answer

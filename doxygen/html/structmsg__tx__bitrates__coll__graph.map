@@ -1,0 +1,5 @@
+<map id="msg_tx_bitrates" name="msg_tx_bitrates">
+<area shape="rect" id="node2" href="$structiw__band__bitrates.html" title="iw_band_bitrates" alt="" coords="5,187,125,213"/>
+<area shape="rect" id="node3" href="$structiw__bitrates.html" title="iw_bitrates" alt="" coords="23,96,108,123"/>
+<area shape="rect" id="node4" href="$structbitrate__entry.html" title="bitrate_entry" alt="" coords="18,5,112,32"/>
+</map>

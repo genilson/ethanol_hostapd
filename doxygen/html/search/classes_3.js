@@ -10,6 +10,7 @@ var searchData=
   ['conf_5flines',['conf_lines',['../structconf__lines.html',1,'']]],
   ['conn_5fimv',['conn_imv',['../structtncs__data_1_1conn__imv.html',1,'tncs_data']]],
   ['country_5fdata',['country_data',['../structcountry__data.html',1,'']]],
+  ['cpu_5finfo',['cpu_info',['../structcpu__info.html',1,'']]],
   ['cripto_5finfo_5fwpa',['cripto_info_wpa',['../structcripto__info__wpa.html',1,'']]],
   ['crypto_5fcipher',['crypto_cipher',['../structcrypto__cipher.html',1,'']]],
   ['crypto_5fhash',['crypto_hash',['../structcrypto__hash.html',1,'']]],

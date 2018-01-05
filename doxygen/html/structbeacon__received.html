@@ -109,6 +109,9 @@ long&#160;</td><td class="memItemRight" valign="bottom"><b>capabilities</b></td>
 <tr class="memitem:a686278b20f386780910e125c394a38d1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a686278b20f386780910e125c394a38d1"></a>
 char *&#160;</td><td class="memItemRight" valign="bottom"><b>ssid</b></td></tr>
 <tr class="separator:a686278b20f386780910e125c394a38d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b0a84ba3f2c8bf6f1eaffd08a21f5be"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7b0a84ba3f2c8bf6f1eaffd08a21f5be"></a>
+unsigned char&#160;</td><td class="memItemRight" valign="bottom"><b>addr</b> [6]</td></tr>
+<tr class="separator:a7b0a84ba3f2c8bf6f1eaffd08a21f5be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7b1b2cff9341cea359c691d93fb8334"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae7b1b2cff9341cea359c691d93fb8334"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>channel</b></td></tr>
 <tr class="separator:ae7b1b2cff9341cea359c691d93fb8334"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -127,15 +130,15 @@ unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>fh_parameters
 <tr class="memitem:a3bffe86137b2f6810c952aef1b2157e1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3bffe86137b2f6810c952aef1b2157e1"></a>
 unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>fh_pattern_table</b></td></tr>
 <tr class="separator:a3bffe86137b2f6810c952aef1b2157e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36766b8876c61a28f64f5e4ea19e12a6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a36766b8876c61a28f64f5e4ea19e12a6"></a>
-unsigned long&#160;</td><td class="memItemRight" valign="bottom"><b>ds_parameter</b></td></tr>
-<tr class="separator:a36766b8876c61a28f64f5e4ea19e12a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad48096469190ea04002d2e347c38a6c5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad48096469190ea04002d2e347c38a6c5"></a>
+unsigned char&#160;</td><td class="memItemRight" valign="bottom"><b>ds_parameter</b> [3]</td></tr>
+<tr class="separator:ad48096469190ea04002d2e347c38a6c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d657deafb91786e53a24d671b0f2252"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6d657deafb91786e53a24d671b0f2252"></a>
 long long&#160;</td><td class="memItemRight" valign="bottom"><b>cf_parameter</b></td></tr>
 <tr class="separator:a6d657deafb91786e53a24d671b0f2252"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa13d000e7e420d1ce00414508af9cd75"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa13d000e7e420d1ce00414508af9cd75"></a>
-long&#160;</td><td class="memItemRight" valign="bottom"><b>ibss_parameter</b></td></tr>
-<tr class="separator:aa13d000e7e420d1ce00414508af9cd75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a848263e22aecaad6e9482e868eecfeeb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a848263e22aecaad6e9482e868eecfeeb"></a>
+unsigned char&#160;</td><td class="memItemRight" valign="bottom"><b>ibss_parameter</b> [4]</td></tr>
+<tr class="separator:a848263e22aecaad6e9482e868eecfeeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7603cf1eccb945e8b0400472145b4f3a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7603cf1eccb945e8b0400472145b4f3a"></a>
 struct <a class="el" href="structbeacon__country.html">beacon_country</a>&#160;</td><td class="memItemRight" valign="bottom"><b>country</b></td></tr>
 <tr class="separator:a7603cf1eccb945e8b0400472145b4f3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -191,7 +194,7 @@ struct <a class="el" href="structht__capability.html">ht_capability</a>&#160;</t
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 12 2017 21:13:42 for Ethanol modification of Hostapd by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jan 5 2018 08:42:57 for Ethanol modification of Hostapd by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

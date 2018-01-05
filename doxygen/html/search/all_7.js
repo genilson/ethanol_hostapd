@@ -1,6 +1,7 @@
 var searchData=
 [
   ['gas_5fdialog_5finfo',['gas_dialog_info',['../structgas__dialog__info.html',1,'']]],
+  ['get_5fall_5fmean_5fnet_5fstatistics',['get_all_mean_net_statistics',['../net__statistics_8h.html#af763ea993b9a1a72708cd363487d13db',1,'net_statistics.c']]],
   ['get_5fbssid',['get_bssid',['../structwpa__driver__ops.html#abcb69d901da34f5810ffe76b0d6a01b4',1,'wpa_driver_ops']]],
   ['get_5fcapa',['get_capa',['../structwpa__driver__ops.html#a4d87ddf442ba6643db82bbb7eded00fe',1,'wpa_driver_ops']]],
   ['get_5fcountry',['get_country',['../structwpa__driver__ops.html#a62682a2eae7dd228fa12cd536adcdbd7',1,'wpa_driver_ops']]],

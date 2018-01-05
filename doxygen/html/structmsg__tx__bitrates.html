@@ -90,8 +90,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">msg_tx_bitrates Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p><code>#include &lt;<a class="el" href="msg__tx__bitrates_8h_source.html">msg_tx_bitrates.h</a>&gt;</code></p>
+<div class="dynheader">
+Collaboration diagram for msg_tx_bitrates:</div>
+<div class="dyncontent">
+<div class="center"><img src="structmsg__tx__bitrates__coll__graph.png" border="0" usemap="#msg__tx__bitrates_coll__map" alt="Collaboration graph"/></div>
+<map name="msg__tx__bitrates_coll__map" id="msg__tx__bitrates_coll__map">
+<area shape="rect" id="node2" href="structiw__band__bitrates.html" title="iw_band_bitrates" alt="" coords="5,187,125,213"/><area shape="rect" id="node3" href="structiw__bitrates.html" title="iw_bitrates" alt="" coords="23,96,108,123"/><area shape="rect" id="node4" href="structbitrate__entry.html" title="bitrate_entry" alt="" coords="18,5,112,32"/></map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -107,27 +112,26 @@ char *&#160;</td><td class="memItemRight" valign="bottom"><b>p_version</b></td><
 <tr class="memitem:a34d56636d4da9afc1bf60ca4cf7b3677"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a34d56636d4da9afc1bf60ca4cf7b3677"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>m_size</b></td></tr>
 <tr class="separator:a34d56636d4da9afc1bf60ca4cf7b3677"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a724c5cc3f9d7af88f8db4e4fe2c65dca"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a724c5cc3f9d7af88f8db4e4fe2c65dca"></a>
-long long&#160;</td><td class="memItemRight" valign="bottom"><b>wiphy</b></td></tr>
-<tr class="separator:a724c5cc3f9d7af88f8db4e4fe2c65dca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2122f6e7e4e0155821055383dd166f80"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2122f6e7e4e0155821055383dd166f80"></a>
-unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>num_bitrates</b></td></tr>
-<tr class="separator:a2122f6e7e4e0155821055383dd166f80"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f57b461ba0bdf46bd0bcf531fe2edf0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4f57b461ba0bdf46bd0bcf531fe2edf0"></a>
-long long *&#160;</td><td class="memItemRight" valign="bottom"><b>bitrate</b></td></tr>
-<tr class="separator:a4f57b461ba0bdf46bd0bcf531fe2edf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a738d0cf2ae8e9d56a378cb8368f82fbf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a738d0cf2ae8e9d56a378cb8368f82fbf"></a>
+char *&#160;</td><td class="memItemRight" valign="bottom"><b>intf_name</b></td></tr>
+<tr class="separator:a738d0cf2ae8e9d56a378cb8368f82fbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5def51b898a27afb39d26da782fa8f7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab5def51b898a27afb39d26da782fa8f7"></a>
+char *&#160;</td><td class="memItemRight" valign="bottom"><b>sta_ip</b></td></tr>
+<tr class="separator:ab5def51b898a27afb39d26da782fa8f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25bbb7109b68ef73bee14488a2b6e2c8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a25bbb7109b68ef73bee14488a2b6e2c8"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>sta_port</b></td></tr>
+<tr class="separator:a25bbb7109b68ef73bee14488a2b6e2c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f7f6a77b5cd6df9ac70a794fa5bbbaf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8f7f6a77b5cd6df9ac70a794fa5bbbaf"></a>
+<a class="el" href="structiw__band__bitrates.html">iw_band_bitrates</a>&#160;</td><td class="memItemRight" valign="bottom"><b>bitr</b></td></tr>
+<tr class="separator:a8f7f6a77b5cd6df9ac70a794fa5bbbaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Last changes : 11/09/2016 by Programmer : Jonas</p>
-<p>message is: [x] in development [x] read for tests [] tested but doesn't capture real data from device [] tested and approved by .....</p>
-<p>TODO: 1) implement station side 2) implement set methods in both sides (ap-station) struct defining tx_bitrates message NOTE: &gt; keep field sequence in the message first field must be m_type followed by m_id </p>
-</div><hr/>The documentation for this struct was generated from the following file:<ul>
+<hr/>The documentation for this struct was generated from the following file:<ul>
 <li>src/messaging/<a class="el" href="msg__tx__bitrates_8h_source.html">msg_tx_bitrates.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 12 2017 21:13:45 for Ethanol modification of Hostapd by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jan 5 2018 08:42:58 for Ethanol modification of Hostapd by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

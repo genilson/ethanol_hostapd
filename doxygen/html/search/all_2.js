@@ -14,6 +14,7 @@ var searchData=
   ['best_5fchannel',['best_channel',['../structwpa__event__data_1_1best__channel.html',1,'wpa_event_data']]],
   ['bg_5fscan_5fperiod',['bg_scan_period',['../structwpa__driver__associate__params.html#a5db18fb6d62e8a8e07c4b1fafecfdf63',1,'wpa_driver_associate_params']]],
   ['bitfield',['bitfield',['../structbitfield.html',1,'']]],
+  ['bitrate_5fentry',['bitrate_entry',['../structbitrate__entry.html',1,'']]],
   ['bootp_5fpkt',['bootp_pkt',['../structbootp__pkt.html',1,'']]],
   ['br_5fadd_5fip_5fneigh',['br_add_ip_neigh',['../structwpa__driver__ops.html#a4765a65e4461c741781bb788ecbefe2e',1,'wpa_driver_ops']]],
   ['br_5fdelete_5fip_5fneigh',['br_delete_ip_neigh',['../structwpa__driver__ops.html#a2cbec953bec2aa9f4d8626a9e50c0592',1,'wpa_driver_ops']]],

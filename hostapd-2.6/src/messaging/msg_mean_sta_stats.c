@@ -17,8 +17,14 @@
 /*************** msg_mean_sta_statistics **************/
 
 void print_msg_mean_sta_statistics(msg_mean_sta_statistics * h){
-  if (h == NULL) return;
-  if(h->v == NULL) printf("Struct all_mean_net_statistics nula\n");
+  if (h == NULL){
+    printf("Mensagem nula\n");
+    return;
+  }
+  if(h->v == NULL){
+    printf("Struct all_mean_net_statistics nula\n");
+    return;
+  }
   int i;
   for(i = 0; i < h->v->num; i++) {
       printf("Interface %s:\n",h->v->intfs[i]);
@@ -189,7 +195,6 @@ msg_mean_sta_statistics * send_msg_mean_sta_statistics(char * hostname, int port
     h.sta_port = sta_port;
 
     h.m_size = size_msg_mean_sta_statistics(&h);
-    //print_msg_mean_sta_statistics(&h);
     encode_msg_mean_sta_statistics(&h, &buffer, &bytes);
     SSL_write(h_ssl.ssl, buffer, bytes);   // encrypt & send message
     #ifdef DEBUG
@@ -438,11 +443,9 @@ void process_msg_mean_sta_statistics(char ** input, int input_len, char ** outpu
         case MSG_MEAN_STA_STATISTICS_GET: {
           msg_mean_sta_statistics * h1;
           decode_msg_mean_sta_statistics(*input, input_len, &h1);
-          //print_msg_mean_sta_statistics(h1);
           if (h1->v) free_all_mean_net_statistics(&h1->v);
           h1->v = NULL;
           h1->v = get_all_mean_net_statistics();
-          //print_msg_mean_sta_statistics(h1);
           encode_msg_mean_sta_statistics(h1, output, output_len);
           break;
         }

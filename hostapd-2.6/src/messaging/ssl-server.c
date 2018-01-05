@@ -97,6 +97,9 @@
 #include "msg_changed_ap.h"
 #include "msg_mean_sta_stats.h"
 #include "msg_station_trigger_transition.h"
+#include "msg_tos.h"
+#include "msg_mtu.h"
+#include "msg_txqueuelen.h"
 
 
 #define DEBUG_SERVLET
@@ -168,7 +171,7 @@ void LoadCertificates(SSL_CTX* ctx, char* CertFile, char* KeyFile) {
   client_addr: client IP address
   client_port: client socket port number
  */
-void servlet(SSL* ssl, char * client_addr, int client_port) {
+void servlet(SSL* ssl, char * client_addr, int client_port, int client_socket) {
   char buf[2048];
   int sd, input_len;
 
@@ -794,7 +797,45 @@ void servlet(SSL* ssl, char * client_addr, int client_port) {
             break;
 
         case MSG_TRIGGER_TRANSITION:
+            #ifdef DEBUG_SERVLET
+               printf("Receiving MSG_TRIGGER_TRANSITION message from %s\n", client_addr);
+            #endif
             process_msg_station_trigger_transition(&input_msg, input_len, &reply, &reply_len);
+            break;
+
+        case MSG_TOS_CLEANALL:
+            #ifdef DEBUG_SERVLET
+               printf("Receiving MSG_TOS_CLEANALL message from %s\n", client_addr);
+            #endif
+            process_msg_tos_cleanall(&input_msg, input_len, &reply, &reply_len);
+            break;
+
+        case MSG_TOS_ADD:
+            #ifdef DEBUG_SERVLET
+               printf("Receiving MSG_TOS_ADD message from %s\n", client_addr);
+            #endif
+            process_msg_tos_add(&input_msg, input_len, &reply, &reply_len);
+            break;
+
+        case MSG_TOS_REPLACE:
+            #ifdef DEBUG_SERVLET
+               printf("Receiving MSG_TOS_REPLACE message from %s\n", client_addr);
+            #endif
+            process_msg_tos_replace(&input_msg, input_len, &reply, &reply_len);
+            break;
+
+        case MSG_SET_MTU:
+            #ifdef DEBUG_SERVLET
+               printf("Receiving MSG_SET_MTU message from %s\n", client_addr);
+            #endif
+            process_msg_set_mtu(&input_msg, input_len, &reply, &reply_len);
+            break;
+
+        case MSG_SET_TXQUEUELEN:
+            #ifdef DEBUG_SERVLET
+               printf("Receiving MSG_SET_TXQUEUELEN message from %s\n", client_addr);
+            #endif
+            process_msg_set_txqueuelen(&input_msg, input_len, &reply, &reply_len);
             break;
 
         default:  //unknown messages
@@ -813,17 +854,19 @@ void servlet(SSL* ssl, char * client_addr, int client_port) {
   sd = SSL_get_fd(ssl);       /* get socket connection */
   SSL_free(ssl);               /* release SSL state */
   close(sd);                   /* close connection */
+  close(client_socket);        /* close accepted client socket */
 }
 
 struct servlet_params {
   SSL * ssl;
   char * client_addr;
   int client_port;
+  int client_socket;
 };
 
 void * call_servlet( void * args ) {
   struct servlet_params * params = (struct servlet_params *) args;
-  servlet(params->ssl, params->client_addr, params->client_port);
+  servlet(params->ssl, params->client_addr, params->client_port, params->client_port);
 
   return NULL;
 }
@@ -837,15 +880,14 @@ void * send_hello_to_controller(void * arg) {
         // parece que existe uma condiçao de corrida na inicializacao do parametros do SSL
         // que ocorre nesta mensagem de hello e na entrada do run_ethanol_server
         // por isto fazemos o hello dormir, antes de chamar, assim run_ethanol_server executa primeiro
-      sleep(1);
+        sleep(1);
         struct msg_hello * msg = send_msg_hello(config->server_addr, config->remote_server_port, &id, config->local_server_port);
         if (NULL != msg) {
           printf("Hello msg #%d sent to ethanol controller.\n", id);
+          free_msg_hello(&msg);
         }
-        free_msg_hello(&msg);
         sleep(config->hello_frequency); // sleep for x seconds
     }
-    //pthread_exit(NULL);
 }
 
 /** generic function to run the server */
@@ -860,27 +902,24 @@ void run_ethanol_server(ethanol_configuration * config) {
         exit(0);
     }
     SSL_library_init();
-
     ctx = InitServerCTX();        /* initialize SSL */
-    LoadCertificates(ctx, "mycert.pem", "mycert.pem"); /* load certs */
+    LoadCertificates(ctx, MYCERT_PEM, MYCERT_PEM); /* load certs */
     server = OpenListener(config->local_server_port);    /* create server socket */
     printf("Local server running at %d\n", config->local_server_port);
-    printf("waiting for new connections...\n");
+    printf("Waiting for new connections...\n");
 
     if (config->ethanol_enable == 1 && config->server_addr != NULL) {
-     pthread_t hello_thread;
-     pthread_create(&hello_thread, NULL, send_hello_to_controller, config);
+       pthread_t hello_thread;
+       pthread_create(&hello_thread, NULL, send_hello_to_controller, config);
     }
 
     // set global variables
     conffile_hostapd = malloc(sizeof(char) * (strlen(CONFFILE_HOSTAPD)+1));
     strcpy(conffile_hostapd, CONFFILE_HOSTAPD);
-
     while (1) {
         struct sockaddr_in addr;
         socklen_t len = sizeof(addr);
         SSL *ssl;
-
         int client = accept(server, (struct sockaddr*)&addr, &len);  /* accept connection as usual */
         char * client_addr = inet_ntoa(addr.sin_addr);
         int client_port = ntohs(addr.sin_port);
@@ -894,6 +933,7 @@ void run_ethanol_server(ethanol_configuration * config) {
         params.ssl = ssl;
         params.client_addr = client_addr;
         params.client_port = client_port;
+        params.client_socket = client;
         pthread_create(&thread, NULL,call_servlet, (void *)&params);
         // servlet(ssl, client_addr, client_port);
     }
@@ -909,9 +949,12 @@ void * thread_start_server(void * arg) {
 }
 
 
-int run_threaded_server(ethanol_configuration * config) {
+int run_threaded_server(ethanol_configuration * config, bool join) {
   // run ethanol server as a thread
+  // join = true, main thread waits for ethanol's thread
   pthread_t server_thread_id;
   int err = pthread_create(&server_thread_id, NULL, &thread_start_server, config );
-  return err;  
+  if (join && (err == 0))
+    pthread_join(server_thread_id, NULL);
+  return err;
 }

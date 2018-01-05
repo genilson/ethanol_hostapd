@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['nl_5fsocket_5falloc',['nl_socket_alloc',['../nl80211__socket_8h.html#a230def94ba1ff5c6719572c896384256',1,'nl80211_socket.c']]],
-  ['nl_5fsocket_5ffree',['nl_socket_free',['../nl80211__socket_8h.html#a2d694fc3bc9d4617a5f88e8cb21051e1',1,'nl80211_socket.c']]],
-  ['nl_5fsocket_5fset_5fbuffer_5fsize',['nl_socket_set_buffer_size',['../nl80211__socket_8h.html#abc464baa8b56ab024fc28548ee35907f',1,'nl80211_socket.c']]],
-  ['noise_5fwith_5fhostapd',['noise_with_hostapd',['../noise__with__hostapd_8h.html#adeef6ebd03a2827a8b0c8a38c97dbf77',1,'noise_with_hostapd.c']]]
+  ['fill_5fstring',['fill_string',['../connect_8h.html#ad97d26452997d048a9732a4ae49c8944',1,'connect.c']]],
+  ['finish_5fhandler',['finish_handler',['../nl80211__socket_8h.html#a7219f421549c5a39fbada4aa320103b9',1,'nl80211_socket.c']]],
+  ['free_5fall_5fmean_5fnet_5fstatistics',['free_all_mean_net_statistics',['../net__statistics_8h.html#af3e78ea8dc46b4adcb10d3a3f81ab114',1,'net_statistics.c']]],
+  ['free_5fssid_5fconfig',['free_ssid_config',['../global__var_8h.html#a34634ad272c5dd2eeabae9e366e7bc6d',1,'global_var.c']]],
+  ['free_5fsta_5finfo_5flist',['free_sta_info_list',['../global__var_8h.html#a84d09bfaf16cb0f4912d63467c73c15f',1,'global_var.c']]]
 ];

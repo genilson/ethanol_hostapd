@@ -109,7 +109,6 @@ void process_msg_statistics(char ** input, int input_len, char ** output, int * 
     int id = h->m_id;
     struct msg_radio_linkstatitics * h1 = send_msg_get_statistics(h->sta_ip, h->sta_port, &id, h->intf_name, NULL, 0);
     if (h1 != NULL) {
-     
       h->rx_packets = h1->rx_packets;
       h->rx_bytes   = h1->rx_bytes;
       h->rx_dropped = h1->rx_dropped;

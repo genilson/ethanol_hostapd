@@ -74,7 +74,7 @@
             "Create SSL Connection to controller at %s:%d", 
             config.server_addr, config.remote_server_port);
 
-        int err = run_threaded_server(&config);
+        int err = run_threaded_server(&config, false);
         if (err != 0) {
           config.ethanol_enable = 0;
           wpa_printf(MSG_INFO,"Cannot create ethanol server thread. Disabling ethanol...");
@@ -938,7 +938,6 @@ int main(int argc, char *argv[])
         hostapd_setup_interface(interfaces.iface[i]))
       goto out;
   }
-
   hostapd_global_ctrl_iface_init(&interfaces);
 
   if (hostapd_global_run(&interfaces, daemonize, pid_file)) {

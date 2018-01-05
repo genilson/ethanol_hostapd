@@ -54,7 +54,7 @@ void process_msg_tos_cleanall(char ** input, int input_len, char ** output, int 
     char buffer[1024];
     sprintf (buffer, CMD_TOS_CLEAN, iptables);
     #ifdef DEBUG
-        printf("command: %s\n\n", (const char *)&buffer);
+        printf("command: %s\n", (const char *)&buffer);
         int ret = system((const char *)&buffer);
         printf("Calling iptables - result %d\n", ret);
     #else
@@ -222,7 +222,7 @@ void issue_command_tos(char * FMT, char * action, char * iptables, msg_tos * h) 
     #endif
 }
 
-#define FMT_CMD_TOS "sudo %s -t mangle %s %s -p %s %s -j TOS --set-tos %d"
+#define FMT_CMD_TOS "sudo %s -t mangle -w %s %s -p %s %s -j TOS --set-tos %d"
 void process_msg_tos_add(char ** input, int input_len, char ** output, int * output_len){
     msg_tos * h;
     decode_msg_send_tos(*input, input_len, &h);

@@ -35,6 +35,7 @@ var searchData=
   ['disable_5fdgaf',['disable_dgaf',['../structwpa__driver__ap__params.html#a7c8c22e26d8e189c01be478765531750',1,'wpa_driver_ap_params']]],
   ['disable_5fht',['disable_ht',['../structwpa__driver__associate__params.html#ab3b6ab4a49313e0cf4d20371aa4a03ef',1,'wpa_driver_associate_params']]],
   ['disassoc_5finfo',['disassoc_info',['../structwpa__event__data_1_1disassoc__info.html',1,'wpa_event_data']]],
+  ['disconnect_5ffrom_5fap',['disconnect_from_ap',['../connect_8h.html#a10d29cbf0ff65c9b2ff8183cdea9a64d',1,'connect.c']]],
   ['dl_5flist',['dl_list',['../structdl__list.html',1,'']]],
   ['dnss',['dnss',['../structdnss.html',1,'']]],
   ['do_5facs',['do_acs',['../structwpa__driver__ops.html#a8f3a19a5e03e855bcb13cde9a485481b',1,'wpa_driver_ops']]],

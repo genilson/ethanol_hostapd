@@ -29,6 +29,7 @@
 
     // all our stations will use a wireless interface in wlan0
     #define WIRELESS_INTERFACE "wlan0"
+	#define NUM_TRIES 3 
 
 #endif
 
@@ -105,13 +106,14 @@ int main(int argc, char * argv[]) {
             usage(argv);
             exit(1);
     }
-    config.ethanol_enable = (config.server_addr == NULL) ? 0 : 1;
 
+    config.ethanol_enable = (config.server_addr == NULL) ? 0 : 1;
     printf("Calling run_ethanol_server() in STATION.\n");
 
-    run_threaded_server(&config);
-
-    #ifdef HANDOVER
+    #ifndef HANDOVER
+        run_threaded_server(&config, true);
+    #else
+        run_threaded_server(&config, false);
         int id = 0;
         // run forever
         while (true) {
@@ -127,12 +129,27 @@ int main(int argc, char * argv[]) {
             long long snr_t = get_snr_threshold(intf_name_snr);
             printf("TRESH:%lld\n", snr_t);
             if (snr <= snr_t) {
+            	int i;
+            	for (i = 0; i < NUM_TRIES; i++) {
+            		ns = get_interface_stats(intf_name_snr);
+		            if(ns){
+		            	snr = -1*(ns->signal - ns->noise);
+		            	printf("SNR:%lld\n", snr);
+		            	free(ns);
+		            }
+		            if(!(snr <= snr_t)){
+		            	break;
+		            }
+               		struct timespec timtry, timtry2;
+                	timtry.tv_sec  = 0;
+					timtry.tv_nsec = 500000000;
+               		nanosleep(&timtry, &timtry2);
+            	}
                 iw_link_info_t * iwl;
                 t_addr_list * maclist;
 
                 iwl = get_iw_link(intf_name_snr);
                 maclist = getmacaddress(intf_name_snr);
-                printf("iwl -> %s\n mac -> %s\n", iwl->mac_address, maclist->mac);
                 if (iwl) {
                     struct msg_snr_threshold_reached * m;
                     // iwl->mac_address => current ap mac_address
@@ -144,15 +161,12 @@ int main(int argc, char * argv[]) {
                         printf("macap %s iwlmac %s\n\n\n", m->mac_ap, iwl->mac_address);
                         sleep(5);
                         if (strcmp(m->mac_ap, iwl->mac_address) != 0) {
-                        printf("\n\n\n\nEntrou no if\n\n\n\n\n");
                             // controller returned another MAC address, so change to the new AP
                             int status = roam_change_ap(intf_name_snr, m->mac_ap); // m->mac_ap = new ap
                             if (status == 0) {
-                            printf("Status 0\n");
                                 // station informs controller that it could change to another AP
                                 send_msg_changed_ap(config.server_addr, config.remote_server_port, &id, status, m->mac_ap, intf_name_snr);
                             } else {
-                            printf("Status else\n");
 
                                 // inform failure
                                 send_msg_changed_ap(config.server_addr, config.remote_server_port, &id, status, iwl->mac_address, intf_name_snr);
@@ -178,6 +192,5 @@ int main(int argc, char * argv[]) {
         }
 
     #endif
-
     return 0;
 }

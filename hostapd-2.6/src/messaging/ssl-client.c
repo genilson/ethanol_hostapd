@@ -2,11 +2,8 @@
 
  ssl-client.c
 
- 1) compilar
-    gcc -Wall -o ssl-client ssl-client.c -L/usr/lib -lssl -lcrypto
-
- 2) rodar com
-    ./ssl-client <IP ssl-server> <porto ssl-server>
+1. compile using make or make debug
+2. generates ethanol_client
 
 */
 #include <stdio.h>

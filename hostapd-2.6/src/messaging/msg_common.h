@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <sys/time.h>
 
-#define ETHANOL_VERSION "1.0.3" // << changed in 13/april/2017
+#define ETHANOL_VERSION "1.0.4" // << changed in 26/03/2018
 #define DEFAULT_MSG_SIZE 0
 
 #define SERVER_PORT 22222

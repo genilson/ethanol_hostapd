@@ -55,11 +55,11 @@ float get_bitrate(char * intf_name, char * mac_sta);
 // decode the interface intf_name to its physical address (phy)
 char * return_phy_from_intf_name(char * intf_name);
 
-enum bitrate_band { legacy_2_4,
-                    legacy_5,
-                    ht_mcs_2_4,
-                    ht_mcs_5,
-                    vht_mcs_2_4,
+enum bitrate_band { legacy_2_4,  // set the bitrate for 2.4 GHz channel
+                    legacy_5,    // set the bitrate for 2.4 GHz channel
+                    ht_mcs_2_4,  // set the HT (802.11n) MCS index for 2.4 GHz channel
+                    ht_mcs_5,    // set the HT (802.11n) MCS index for 5 GHz channel
+                    vht_mcs_2_4, // set the VHT (802.11ac) MCS index for 2.4 GHz channel
                     vht_mcs_5 };
 
 typedef struct t_set_bitrates {

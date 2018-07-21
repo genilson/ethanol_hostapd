@@ -24,7 +24,7 @@ struct dnss * find_dns() {
   result->address = (char**) malloc (result->n * sizeof(char*));
 
   for(i = 0; i < result->n; i++) {
-  	char *endereco = inet_ntoa(rs->nsaddr_list[0].sin_addr);
+  	char *endereco = inet_ntoa(rs->nsaddr_list[i].sin_addr);
   	int tam = strlen(endereco);
     result->address[i] =  (char *) malloc(sizeof(char) * (tam + 1)); // return the IP
     strcpy(result->address[i], endereco);

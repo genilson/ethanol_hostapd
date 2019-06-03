@@ -56,7 +56,6 @@ sudo apt-get install -y libssl-dev
 sudo apt-get install -y libiw-dev
 sudo apt-get install -y curl libcurl3 libcurl3-dev
 sudo apt-get install -y wireless-tools
-make
 ```
 
 ### Ethanol's modifications ###

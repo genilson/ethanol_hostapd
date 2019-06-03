@@ -70,6 +70,7 @@
       read_configfile(&config);
 
       if (config.ethanol_enable == 1) {
+	wpa_printf(MSG_INFO,"Ethanol version: %s", ETHANOL_VERSION);
         wpa_printf(MSG_INFO,
             "Create SSL Connection to controller at %s:%d", 
             config.server_addr, config.remote_server_port);

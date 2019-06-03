@@ -1859,7 +1859,10 @@ static int hostapd_ctrl_iface_chan_switch(struct hostapd_iface *iface,
 		return ret;
 
 	for (i = 0; i < iface->num_bss; i++) {
-		ret = hostapd_switch_channel(iface->bss[i], &settings);
+		// chamada de hostapd_cli_cmd_chan_switch (em hostapd_cli) chega até aqui
+		// mas nem retorna "ret"
+
+		ret = hostapd_switch_channel(iface->bss[i], &settings);  // em src/ap/hostapd.c ??
 		if (ret) {
 			/* FIX: What do we do if CSA fails in the middle of
 			 * submitting multi-BSS CSA requests? */

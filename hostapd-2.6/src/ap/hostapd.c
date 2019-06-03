@@ -3075,6 +3075,7 @@ static int hostapd_fill_csa_settings(struct hostapd_data *hapd,
 	int ret;
 	u8 chan, vht_bandwidth;
 
+
 	os_memset(&old_freq, 0, sizeof(old_freq));
 	if (!iface || !iface->freq || hapd->csa_in_progress)
 		return -1;
@@ -3094,6 +3095,9 @@ static int hostapd_fill_csa_settings(struct hostapd_data *hapd,
 		break;
 	}
 
+	// NOTE: if the freq_params.freq is wrong,
+	//       leave the function without an error
+	//       if MSG_DEBUG, prints error
 	if (ieee80211_freq_to_channel_ext(
 		    settings->freq_params.freq,
 		    settings->freq_params.sec_channel_offset,
@@ -3162,17 +3166,24 @@ int hostapd_switch_channel(struct hostapd_data *hapd,
 			   struct csa_settings *settings)
 {
 	int ret;
-
+	printf("\n\nentrou!!!\n");
 	if (!(hapd->iface->drv_flags & WPA_DRIVER_FLAGS_AP_CSA)) {
 		wpa_printf(MSG_INFO, "CSA is not supported");
 		return -1;
 	}
 
+	printf("antes hostapd_fill_csa_settings\n\n\n\n");
+
 	ret = hostapd_fill_csa_settings(hapd, settings);
 	if (ret)
 		return ret;
 
+	printf("antes hostapd_drv_switch_channel\n\n\n\n");
+
 	ret = hostapd_drv_switch_channel(hapd, settings);
+
+	printf("DEPOIS hostapd_drv_switch_channel\n\n\n\n");
+
 	free_beacon_data(&settings->beacon_csa);
 	free_beacon_data(&settings->beacon_after);
 

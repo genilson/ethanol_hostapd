@@ -89,7 +89,7 @@
 #include "msg_mtu.h"
 #include "msg_txqueuelen.h"
 
-#define NUM_TIPOS_MENSAGENS_STR 129
+#define NUM_TIPOS_MENSAGENS_STR 133
 char * todas_opcoes[] = {
 "MSG_HELLO_TYPE",
 "MSG_BYE_TYPE",
@@ -219,7 +219,11 @@ char * todas_opcoes[] = {
 "MSG_SET_MTU",
 "MSG_SET_TXQUEUELEN",
 "MSG_GET_HOSTAPD_CONF",
-"MSG_SET_HOSTAPD_CONF"
+"MSG_SET_HOSTAPD_CONF",
+"MSG_GET_QUEUE_PARAMS",
+"MSG_SET_QUEUE_PARAMS",
+"MSG_GET_WMM_PARAMS",
+"MSG_SET_WMM_PARAMS"
 };
 
 void call_msg_get_sta_statistics(char * hostname, int portnum, int * m_id, char * intf_name, char * sta_ip, int sta_port) {
@@ -1840,6 +1844,13 @@ int main(int argc, char *argv[]) {
           send_msg_set_txqueuelen(hostname, portnum, &m_id, INTERFACE_WLAN, NULL, 0, 500);
           break;
       }
+
+      case MSG_GET_QUEUE_PARAMS:
+      case MSG_SET_QUEUE_PARAMS:
+      case MSG_GET_WMM_PARAMS:
+      case MSG_SET_WMM_PARAMS:
+        printf("Not implemented!\n");
+        break;
 
       default:
     		printf("Opção [%s] inválida!\n\n", opcao_lida);

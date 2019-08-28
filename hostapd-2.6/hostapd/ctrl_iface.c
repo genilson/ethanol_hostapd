@@ -1176,7 +1176,8 @@ static int hostapd_ctrl_iface_get_queue_params(struct hostapd_data *hapd,
     // see hostapd_config_tx_queue()
 
     struct hostapd_config *conf = hapd->iconf;
-    for(int num = 0; num < NUM_TX_QUEUES; num++) { // NUM_TX_QUEUES defined in src/ap/ap_config.h
+    int num;
+    for(num = 0; num < NUM_TX_QUEUES; num++) { // NUM_TX_QUEUES defined in src/ap/ap_config.h
         struct hostapd_tx_queue_params  *queue = &conf->tx_queue[num];
         int aifs = queue->aifs;
         int tx_cwmin = queue->cwmin;
@@ -1241,7 +1242,8 @@ static int hostapd_ctrl_iface_get_wmm_params(struct hostapd_data *hapd,
     end = buf + buflen;
 
     struct hostapd_config *conf = hapd->iconf;
-    for(int num = 0; num < 4; num++) { 			// Value is fixed in 4
+    int num;
+    for(num = 0; num < 4; num++) { 			// Value is fixed in 4
         struct hostapd_wmm_ac_params *queue = &conf->wmm_ac_params[num];
         int aifs = queue->aifs;
         int tx_cwmin = queue->cwmin;

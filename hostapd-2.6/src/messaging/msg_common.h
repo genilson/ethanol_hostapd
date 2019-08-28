@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <sys/time.h>
 
-#define ETHANOL_VERSION "1.0.4" // << changed in 26/03/2018
+#define ETHANOL_VERSION "1.0.4" // << changed in 20/march/2018
 #define DEFAULT_MSG_SIZE 0
 
 #define SERVER_PORT 22222
@@ -117,6 +117,7 @@ enum Enum_msg_type {
   MSG_GET_FASTBSSTRANSITION_COMPATIBLE,
   MSG_GET_BYTESRECEIVED,
   MSG_GET_BYTESSENT,
+  MSG_GET_BYTESLOST,
   MSG_GET_PACKETSRECEIVED,
   MSG_GET_PACKETSSENT,
   MSG_GET_PACKETSLOST,

@@ -1150,7 +1150,7 @@ static int hostapd_cli_cmd_chan_switch(struct wpa_ctrl *ctrl,
 		}
 		total += res;
 	}
-	return wpa_ctrl_command(ctrl, cmd);
+	return wpa_ctrl_command(ctrl, cmd); // example: cmd == "CHAN_SWITCH 0 2400"
 }
 
 

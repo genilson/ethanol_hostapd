@@ -8,9 +8,27 @@ This tool uses nl80211.
 To compile use
 
 ```bash
+cd iw-4.9
 $ make clean
 $ make ethanol
 ```
+
+
+To compile a clean version of `iw` (without Ethanol's modifications), use
+
+```bash
+cd iw-4.9
+$ make clean
+$ make
+```
+
+To install
+
+```bash
+cd iw-4.9
+$ sudo make install
+```
+
 
 
 # Troubleshoot

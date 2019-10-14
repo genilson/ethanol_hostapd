@@ -29,7 +29,6 @@
 #ifndef __HOSTAPD_HOOKS_H
 #define __HOSTAPD_HOOKS_H
 
-#include "ap/hostapd.h"
 #include "global_typedef.h"
 
 typedef int (* func_return_int)(void);
@@ -43,10 +42,6 @@ typedef channel_noise *(* func_get_noise) (int);
 typedef scan_info_t *(* func_survey)(int);
 typedef char * (* func_get_ssid)(int, int);
 typedef char * (* func_get_mac) (int);
-
-typedef int (* func_get_wmm_queue_params)(struct hostapd_data *, char *, size_t );
-typedef int (* func_set_wmm_queue_params)(struct hostapd_data *, char *, char *, size_t )
-
 
 /** connected stations **/
 
@@ -126,6 +121,13 @@ func_int_return_int return_func_get_phy(void);
 
 //////////////////////////////
 
+/*
+
+#include "ap/hostapd.h"
+
+typedef int (* func_get_wmm_queue_params)(struct hostapd_data *, char *, size_t );
+typedef int (* func_set_wmm_queue_params)(struct hostapd_data *, char *, char *, size_t )
+
 void assign_func__get_queue_params(func_get_wmm_queue_params f);
 func_get_wmm_queue_params return_func_get_wmm_queue_params(void);
 
@@ -137,5 +139,6 @@ func_get_wmm_queue_params return_func_get_wmm_queue_params(void);
 
 void assign_func__set_wmm_params(func_set_wmm_queue_params f);
 func_set_wmm_queue_params return_func_set_wmm_queue_params(void);
+*/
 
 #endif

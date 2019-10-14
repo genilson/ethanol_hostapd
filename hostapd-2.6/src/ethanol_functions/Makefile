@@ -1,6 +1,10 @@
 CC = gcc
 
 INCLUDES = -I. -I/usr/include
+
+# TODO: fix this include to compile hostapd_hooks with hostapd.h include
+#INCLUDES += -I../ap -I.. -I../utils
+
 #LDFLAGS = -L/usr/lib -L/usr/lib/x86_64-linux-gnu
 
 CFLAGS ?= -O2 -g
@@ -16,7 +20,7 @@ OBJS += ap_txpower.o
 OBJS += config_hostapd.o
 OBJS += get_acs.o
 OBJS += get_meminfo.o get_cpuinfo.o cpu_info.o get_dns.o convert_freq.o
-OBJS += get_noise.o signalstrength.o 
+OBJS += get_noise.o signalstrength.o
 OBJS += get_route.o
 OBJS += get_phyintf.o getmac.o getnetlink.o get_interfaces.o
 OBJS += get_snr.o get_snr_ap.o

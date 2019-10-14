@@ -919,11 +919,12 @@ int main(int argc, char *argv[])
         assign_func_get_vht_channel_width(get_vht_channel_width);
         assign_func_get_phy(get_phy);
 
-        /* TODO --> FUNCTIONS IN ctrl_iface.c */
+        /* TODO --> FUNCTIONS IN ctrl_iface.c
         assign_func__get_queue_params(hostapd_ctrl_iface_get_queue_params);
         assign_func__set_queue_params(hostapd_ctrl_iface_set_queue_params):
         assign_func__get_wmm_params(hostapd_ctrl_iface_get_wmm_params):
         assign_func__set_wmm_params(hostapd_ctrl_iface_set_wmm_params);
+        */
 
         /** save a pointer to "struct hapd_interfaces  interfaces"
             this var keeps all wireless interfaces handled by a hostapd process

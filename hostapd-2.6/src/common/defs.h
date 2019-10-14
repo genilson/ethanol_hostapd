@@ -17,6 +17,10 @@
 #endif
 typedef enum { FALSE = 0, TRUE = 1 } Boolean;
 
+#ifndef BIT
+#define BIT(x) (1U << (x))
+#endif
+
 
 #define WPA_CIPHER_NONE BIT(0)
 #define WPA_CIPHER_WEP40 BIT(1)

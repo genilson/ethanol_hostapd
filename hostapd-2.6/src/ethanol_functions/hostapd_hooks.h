@@ -29,7 +29,7 @@
 #ifndef __HOSTAPD_HOOKS_H
 #define __HOSTAPD_HOOKS_H
 
-#include "hostapd.h"
+#include "ap/hostapd.h"
 #include "global_typedef.h"
 
 typedef int (* func_return_int)(void);

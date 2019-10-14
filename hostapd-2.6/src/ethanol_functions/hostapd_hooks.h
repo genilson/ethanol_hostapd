@@ -29,6 +29,7 @@
 #ifndef __HOSTAPD_HOOKS_H
 #define __HOSTAPD_HOOKS_H
 
+#include "hostapd.h"
 #include "global_typedef.h"
 
 typedef int (* func_return_int)(void);
@@ -126,15 +127,15 @@ func_int_return_int return_func_get_phy(void);
 //////////////////////////////
 
 void assign_func__get_queue_params(func_get_wmm_queue_params f);
-func_get_wmm_queue_params return_(void);
+func_get_wmm_queue_params return_func_get_wmm_queue_params(void);
 
 void assign_func__set_queue_params(func_set_wmm_queue_params f);
-func_set_wmm_queue_params return_(void);
+func_set_wmm_queue_params return_func_set_wmm_queue_params(void);
 
 void assign_func__get_wmm_params(func_get_wmm_queue_params f);
-func_get_wmm_queue_params return_(void);
+func_get_wmm_queue_params return_func_get_wmm_queue_params(void);
 
 void assign_func__set_wmm_params(func_set_wmm_queue_params f);
-func_set_wmm_queue_params return_(void);
+func_set_wmm_queue_params return_func_set_wmm_queue_params(void);
 
 #endif

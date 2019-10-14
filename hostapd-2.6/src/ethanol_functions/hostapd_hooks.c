@@ -141,3 +141,23 @@ func_get_mac return_func_get_mac(void) { return f_get_mac; };
 func_int_return_int f_get_phy = NULL;
 void assign_func_get_phy(func_int_return_int f) { f_get_phy = f; }
 func_int_return_int return_func_get_phy(void) { return f_get_phy; }
+
+
+//////
+
+f_get_queue_params = NULL;
+f_set_queue_params = NULL;
+f_get_wmm_params = NULL;
+f_set_wmm_params = NULL;
+
+void assign_func__get_queue_params(func_get_wmm_queue_params f) { f_get_queue_params = f; }
+func_get_wmm_queue_params return_(void) { return f_get_queue_params; }
+
+void assign_func__set_queue_params(func_set_wmm_queue_params f) { f_set_queue_params = f; }
+func_set_wmm_queue_params return_(void) { return f_set_queue_params; }
+
+void assign_func__get_wmm_params(func_get_wmm_queue_params f) { f_get_wmm_params = f; }
+func_get_wmm_queue_params return_(void) { return f_get_wmm_params; }
+
+void assign_func__set_wmm_params(func_set_wmm_queue_params f) { f_set_wmm_params = f; }
+func_set_wmm_queue_params return_(void) { return f_set_wmm_params; }

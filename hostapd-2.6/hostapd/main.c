@@ -61,7 +61,7 @@
      */
     void load_ethanol(struct hapd_interfaces  * interfaces){
 
-      // save this variable to further access to 
+      // save this variable to further access to
       // the AP's interfaces information
       set_had_intf(interfaces);
 
@@ -72,7 +72,7 @@
       if (config.ethanol_enable == 1) {
 	wpa_printf(MSG_INFO,"Ethanol version: %s", ETHANOL_VERSION);
         wpa_printf(MSG_INFO,
-            "Create SSL Connection to controller at %s:%d", 
+            "Create SSL Connection to controller at %s:%d",
             config.server_addr, config.remote_server_port);
 
         int err = run_threaded_server(&config, false);
@@ -81,7 +81,7 @@
           wpa_printf(MSG_INFO,"Cannot create ethanol server thread. Disabling ethanol...");
         } else {
           wpa_printf(MSG_INFO,"SSL messaging server @ port %d", config.local_server_port);
-          /* ssl-server already creates a thread that sends the hello messages 
+          /* ssl-server already creates a thread that sends the hello messages
              see: run_ethanol_server()
           */
         }
@@ -918,6 +918,12 @@ int main(int argc, char *argv[])
         assign_func_get_mac(get_mac);
         assign_func_get_vht_channel_width(get_vht_channel_width);
         assign_func_get_phy(get_phy);
+
+        /* TODO --> FUNCTIONS IN ctrl_iface.c */
+        assign_func__get_queue_params(hostapd_ctrl_iface_get_queue_params);
+        assign_func__set_queue_params(hostapd_ctrl_iface_set_queue_params):
+        assign_func__get_wmm_params(hostapd_ctrl_iface_get_wmm_params):
+        assign_func__set_wmm_params(hostapd_ctrl_iface_set_wmm_params);
 
         /** save a pointer to "struct hapd_interfaces  interfaces"
             this var keeps all wireless interfaces handled by a hostapd process

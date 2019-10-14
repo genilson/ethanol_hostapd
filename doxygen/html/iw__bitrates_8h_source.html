@@ -146,11 +146,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">// decode the interface intf_name to its physical address (phy)</span></div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keywordtype">char</span> * return_phy_from_intf_name(<span class="keywordtype">char</span> * intf_name);</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">enum</span> bitrate_band { legacy_2_4,</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                    legacy_5,</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                    ht_mcs_2_4,</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                    ht_mcs_5,</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                    vht_mcs_2_4,</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">enum</span> bitrate_band { legacy_2_4,  <span class="comment">// set the bitrate for 2.4 GHz channel</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                    legacy_5,    <span class="comment">// set the bitrate for 2.4 GHz channel</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                    ht_mcs_2_4,  <span class="comment">// set the HT (802.11n) MCS index for 2.4 GHz channel</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                    ht_mcs_5,    <span class="comment">// set the HT (802.11n) MCS index for 5 GHz channel</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                    vht_mcs_2_4, <span class="comment">// set the VHT (802.11ac) MCS index for 2.4 GHz channel</span></div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                    vht_mcs_5 };</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
 <div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="structt__set__bitrates.html">   65</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structt__set__bitrates.html">t_set_bitrates</a> {</div>
@@ -171,7 +171,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 5 2018 08:42:55 for Ethanol modification of Hostapd by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Oct 14 2019 14:00:07 for Ethanol modification of Hostapd by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

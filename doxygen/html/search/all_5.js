@@ -125,6 +125,5 @@ var searchData=
   ['extra_5fcred',['extra_cred',['../structwps__registrar__config.html#aceadf51b28f403efd95dce730164ad0c',1,'wps_registrar_config']]],
   ['extra_5fcred_5flen',['extra_cred_len',['../structwps__registrar__config.html#a209f1210ccb9f761f5b83f2fb97e163a',1,'wps_registrar_config']]],
   ['extra_5fies',['extra_ies',['../structwpa__driver__scan__params.html#ac3dc46d599e2f794304edd74926eb771',1,'wpa_driver_scan_params']]],
-  ['extra_5fies_5flen',['extra_ies_len',['../structwpa__driver__scan__params.html#a3598add327273fd0f4cb27a59c723960',1,'wpa_driver_scan_params']]],
-  ['ethanol_27s_20configuration',['Ethanol&apos;s configuration',['../md_src_ini_README.html',1,'']]]
+  ['extra_5fies_5flen',['extra_ies_len',['../structwpa__driver__scan__params.html#a3598add327273fd0f4cb27a59c723960',1,'wpa_driver_scan_params']]]
 ];

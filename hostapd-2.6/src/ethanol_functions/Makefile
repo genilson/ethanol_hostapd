@@ -4,6 +4,8 @@ INCLUDES = -I. -I/usr/include
 
 # TODO: fix this include to compile hostapd_hooks with hostapd.h include
 #INCLUDES += -I../ap -I.. -I../utils
+#
+include ../lib.rules
 
 #LDFLAGS = -L/usr/lib -L/usr/lib/x86_64-linux-gnu
 

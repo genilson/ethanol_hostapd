@@ -30,6 +30,8 @@ CFLAGS = -Wall
 INCLUDES = -I. -I/usr/include
 LIBS   = -L/usr/lib -lssl -lcrypto -lm -lnl -liw -lpthread
 
+include ../lib.rules
+
 OBJS_FUNCOES =  ../ethanol_functions/utils.o
 OBJS_FUNCOES += ../ethanol_functions/80211e.o
 OBJS_FUNCOES += ../ethanol_functions/ap_txpower.o

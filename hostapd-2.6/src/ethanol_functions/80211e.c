@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "80211e.h"
+#include "ap/hostapd.h"
 
 
 struct hostapd_is_80211e_enabled {

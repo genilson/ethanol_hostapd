@@ -44,14 +44,14 @@
  ref.: http://w1.fi/hostapd/devel/structhapd__interfaces.html
  */
 void set_had_intf(struct hapd_interfaces * interfaces);
-struct hapd_interfaces * get_had_intf();
+struct hapd_interfaces * get_had_intf(void);
 
 
 /** returns the number of configured BSS (wlan interfaces)
   @param None
   @return number of configured BSS
 */
-int return_number_of_bss();
+int return_number_of_bss(void);
 
 /** returns a list of aps detected by "wiphy" interface using scan_info_t struct.
   don't fill all fields.\n

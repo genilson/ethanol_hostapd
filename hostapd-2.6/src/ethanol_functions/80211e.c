@@ -5,6 +5,7 @@
 
 #include "80211e.h"
 #include "ap/hostapd.h"
+#include "ap/global_var.h"
 
 
 struct hostapd_is_80211e_enabled {
@@ -58,7 +59,7 @@ void free_hostapd_is_80211e_enabled() {
   // hostapd_ctrl_iface_receive(eloop_ctx) --> struct hostapd_data *hapd = eloop_ctx;
   // hostapd_ctrl_iface_init(struct hostapd_data *hapd)
 
- */
+ 
 bool is_80211e_enabled(char * intf_name){
   struct hostapd_is_80211e_enabled * p = h;
   while ((p != NULL) && (strcmp(p->intf_name, intf_name) != 0)) p = p->next;
@@ -66,4 +67,21 @@ bool is_80211e_enabled(char * intf_name){
     return p->enabled;//bss->peerkey == 1;
   } else return false;
 }
+*/
 
+bool is_80211e_enabled(char * intf_name){
+  
+  struct hapd_interfaces *intfs;
+  intfs = get_had_intf();
+
+  //printf("Interfarce ativa?: %i\n", intfs->iface[0]->conf->last_bss->wmm_enabled);
+  /*int i;
+  for (i = 0; i < intfs->count; i++)
+  {
+    if (strcmp(*intfs[i]->conf->last_bss->iface, intf_name))
+    {
+      return *intfs[i]->conf->last_bss->wmm_enabled;
+    }
+  }*/
+  return intfs->iface[0]->conf->last_bss->wmm_enabled;
+}

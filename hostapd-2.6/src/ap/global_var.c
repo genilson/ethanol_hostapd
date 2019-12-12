@@ -26,11 +26,11 @@ void set_had_intf(struct hapd_interfaces * interfaces) {
     ethanol_had_interfaces = interfaces;
 }
 
-struct hapd_interfaces * get_had_intf() {
+struct hapd_interfaces * get_had_intf(void) {
     return ethanol_had_interfaces;
 }
 
-int return_number_of_bss() {
+int return_number_of_bss(void) {
     if (ethanol_had_interfaces == NULL) return -1; // error
     return ethanol_had_interfaces->count;
 }

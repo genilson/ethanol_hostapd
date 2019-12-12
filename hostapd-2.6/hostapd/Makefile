@@ -5,11 +5,15 @@
 # $make ethanol:
 #  produces a modified version of hostapd embedded with ethanol server and internal hooks
 #
-
 ifndef CC
 CC=gcc
 endif
 
+ifndef CFLAGS
+CFLAGS = -MMD -O2 -Wall -g
+endif
+
+ifdef ETHANOL_ENABLED
 # ####################################################
 #
 #  ETHANOL
@@ -17,13 +21,9 @@ endif
 CFLAGS += -I.
 CFLAGS += -I$(abspath ../src/ini)
 CFLAGS += -I$(abspath ../src/messaging)
-CFLAGS += -I$(abspath ../src)
 #
 #  --> FIM CFLAGS DO ETHANOL
 # ####################################################
-
-ifndef CFLAGS
-CFLAGS = -MMD -O2 -Wall -g
 endif
 
 ifdef LIBS
@@ -107,7 +107,7 @@ OBJS += ../src/ap/bss_load.o
 OBJS += ../src/ap/neighbor_db.o
 OBJS += ../src/ap/rrm.o
 
-
+ifdef ETHANOL_ENABLED
 # ####################################################
 #
 #  ETHANOL
@@ -116,10 +116,149 @@ OBJS += ../src/ini/ini.o
 OBJS += ../src/ini/ethanol_config_file.o
 OBJS += ../src/ap/global_var.o
 #
+#
+#
+# Messaging
+OBJS+= ../src/messaging/buffer_handler_fun.o
+OBJS+= ../src/messaging/ssl_common.o
+OBJS+= ../src/messaging/ssl-server.o
+OBJS+= ../src/messaging/msg_error.o
+OBJS+= ../src/messaging/msg_common.o
+OBJS+= ../src/messaging/msg_hello.o
+OBJS+= ../src/messaging/msg_bye.o
+OBJS+= ../src/messaging/msg_ping.o
+OBJS+= ../src/messaging/msg_802_11e_enabled.o
+OBJS+= ../src/messaging/msg_ap_ctsprotection_enabled.o
+OBJS+= ../src/messaging/msg_ap_broadcastssid.o
+OBJS+= ../src/messaging/msg_ap_frameburstenabled.o
+OBJS+= ../src/messaging/msg_ap_guardinterval.o
+OBJS+= ../src/messaging/msg_ap_dtiminterval.o
+OBJS+= ../src/messaging/msg_ap_rtsthreshold.o
+OBJS+= ../src/messaging/msg_beacon_interval.o
+OBJS+= ../src/messaging/msg_bytesreceived.o
+OBJS+= ../src/messaging/msg_bytessent.o
+OBJS+= ../src/messaging/msg_packetsreceived.o
+OBJS+= ../src/messaging/msg_packetssent.o
+OBJS+= ../src/messaging/msg_packetslost.o
+OBJS+= ../src/messaging/msg_deauthenticate_user.o
+OBJS+= ../src/messaging/msg_disconnect_user.o
+OBJS+= ../src/messaging/msg_powersavemode.o
+OBJS+= ../src/messaging/msg_delay.o
+OBJS+= ../src/messaging/msg_failed.o
+OBJS+= ../src/messaging/msg_jitter.o
+OBJS+= ../src/messaging/msg_fastbsstransition_compatible.o
+OBJS+= ../src/messaging/msg_association_process.o
+OBJS+= ../src/messaging/msg_snr.o
+OBJS+= ../src/messaging/msg_frequency.o
+OBJS+= ../src/messaging/msg_currentchannel.o
+OBJS+= ../src/messaging/msg_mac.o
+OBJS+= ../src/messaging/msg_radio_wlans.o
+OBJS+= ../src/messaging/msg_channels.o
+OBJS+= ../src/messaging/msg_intf.o
+OBJS+= ../src/messaging/msg_beaconinfo.o
+OBJS+= ../src/messaging/msg_radio_linkstatistics.o
+OBJS+= ../src/messaging/msg_wlan_info.o
+OBJS+= ../src/messaging/msg_channelbandwitdh.o
+OBJS+= ../src/messaging/msg_ipv4_address.o
+OBJS+= ../src/messaging/msg_txpower.o
+OBJS+= ../src/messaging/msg_ap_in_range.o
+OBJS+= ../src/messaging/msg_retries.o
+OBJS+= ../src/messaging/msg_uptime.o
+OBJS+= ../src/messaging/msg_routes.o
+OBJS+= ../src/messaging/msg_ssid.o
+OBJS+= ../src/messaging/msg_memory.o
+OBJS+= ../src/messaging/msg_cpu.o
+OBJS+= ../src/messaging/msg_scan.o
+OBJS+= ../src/messaging/msg_channelinfo.o
+OBJS+= ../src/messaging/msg_inform_beacon.o
+OBJS+= ../src/messaging/msg_interferencemap.o
+OBJS+= ../src/messaging/msg_request_begin_association.o
+OBJS+= ../src/messaging/msg_fragmentationthreshold.o
+OBJS+= ../src/messaging/msg_tx_bitrates.o
+OBJS+= ../src/messaging/msg_tx_bitrate.o
+OBJS+= ../src/messaging/msg_noiseinfo.o
+OBJS+= ../src/messaging/msg_sta_link_information.o
+OBJS+= ../src/messaging/msg_supportedinterface.o
+OBJS+= ../src/messaging/msg_location.o
+OBJS+= ../src/messaging/msg_conf_ssid_radio.o
+OBJS+= ../src/messaging/msg_statistics.o
+OBJS+= ../src/messaging/msg_sta_statistics.o
+OBJS+= ../src/messaging/msg_vap_create.o
+OBJS+= ../src/messaging/msg_set_snr_threshold.o
+OBJS+= ../src/messaging/msg_set_snr_interval.o
+OBJS+= ../src/messaging/msg_acs.o
+OBJS+= ../src/messaging/list_devices.o
+OBJS+= ../src/messaging/list_aps.o
+OBJS+= ../src/messaging/list_stations.o
+OBJS+= ../src/messaging/msg_snr_threshold_reached.o
+OBJS+= ../src/messaging/msg_changed_ap.o
+OBJS+= ../src/messaging/msg_mean_sta_stats.o
+OBJS+= ../src/messaging/msg_station_trigger_transition.o
+OBJS+= ../src/messaging/msg_tos.o
+OBJS+= ../src/messaging/msg_mtu.o
+OBJS+= ../src/messaging/msg_txqueuelen.o
+#
+#
+#Ethanol_Functions
+OBJS += ../src/ethanol_functions/utils.o
+OBJS += ../src/ethanol_functions/utils_str.o
+OBJS += ../src/ethanol_functions/change_ap.o
+OBJS += ../src/ethanol_functions/80211e.o
+OBJS += ../src/ethanol_functions/ap_txpower.o
+OBJS += ../src/ethanol_functions/config_hostapd.o
+OBJS += ../src/ethanol_functions/get_acs.o
+OBJS += ../src/ethanol_functions/get_meminfo.o
+OBJS += ../src/ethanol_functions/get_cpuinfo.o
+OBJS += ../src/ethanol_functions/cpu_info.o 
+OBJS += ../src/ethanol_functions/get_dns.o
+OBJS += ../src/ethanol_functions/convert_freq.o
+OBJS += ../src/ethanol_functions/get_noise.o
+OBJS += ../src/ethanol_functions/signalstrength.o
+OBJS += ../src/ethanol_functions/get_route.o
+OBJS += ../src/ethanol_functions/get_phyintf.o
+OBJS += ../src/ethanol_functions/getmac.o
+OBJS += ../src/ethanol_functions/getnetlink.o
+OBJS += ../src/ethanol_functions/get_interfaces.o
+OBJS += ../src/ethanol_functions/get_snr.o
+OBJS += ../src/ethanol_functions/get_snr_ap.o
+OBJS += ../src/ethanol_functions/global_typedef.o
+OBJS += ../src/ethanol_functions/hostapd_hooks.o
+OBJS += ../src/ethanol_functions/connect.o
+OBJS += ../src/ethanol_functions/is_wireless.o
+OBJS += ../src/ethanol_functions/iw_bitrates.o
+OBJS += ../src/ethanol_functions/iw_link.o
+OBJS += ../src/ethanol_functions/iw_powersave.o
+OBJS += ../src/ethanol_functions/net_statistics.o
+OBJS += ../src/ethanol_functions/nl80211_socket.o
+OBJS += ../src/ethanol_functions/noise_with_hostapd.o
+OBJS += ../src/ethanol_functions/phy_info.o
+OBJS += ../src/ethanol_functions/wlan_info.o
+OBJS += ../src/ethanol_functions/return_ap_in_range.o
+OBJS += ../src/ethanol_functions/sta_statistics.o
+OBJS += ../src/ethanol_functions/station.o
+OBJS += ../src/ethanol_functions/channel.o
+OBJS += ../src/ethanol_functions/ap.o
+OBJS += ../src/ethanol_functions/strlib.o
+OBJS += ../src/ethanol_functions/time_stamp.o
+OBJS += ../src/ethanol_functions/wapi_avail_freq.o
+OBJS += ../src/ethanol_functions/wapi_getssid.o
+OBJS += ../src/ethanol_functions/wlan_set_freq.o
+OBJS += ../src/ethanol_functions/sta_link_information.o
+OBJS += ../src/ethanol_functions/wapi_quality.o
+OBJS += ../src/ethanol_functions/wapi_ssid.o
+OBJS += ../src/ethanol_functions/wapi_scan.o
+OBJS += ../src/ethanol_functions/wapi_scan2.o
+OBJS += ../src/ethanol_functions/wapi_txpower.o
+OBJS += ../src/ethanol_functions/wapi_util.o
+OBJS += ../src/ethanol_functions/wapi_frequency.o
+OBJS += ../src/ethanol_functions/wapi_getfrequency.o
+OBJS += ../src/ethanol_functions/setip.o
+OBJS += ../src/ethanol_functions/route.o
+#
 #  --> FIM OBJS DO ETHANOL
 # ####################################################
-
-
+LIBS += -L/usr/lib -lssl -lcrypto -lm -lnl -liw -lpthread
+endif
 
 OBJS_c = hostapd_cli.o
 OBJS_c += ../src/common/wpa_ctrl.o
@@ -1093,37 +1232,24 @@ install: $(addprefix $(DESTDIR)$(BINDIR)/,$(ALL))
 
 BCHECK=../src/drivers/build.hostapd
 
-
-# #############################################################
+ifdef ETHANOL_ENABLED
+CFLAGS += -DETHANOL
+endif
+# ############################################################################
 #
 # ETHANOL
 #
-# definição de bibliotecas necessárias para compilação
-# note que as bibliotecas do diretório src/ini estão em outro local
-# #############################################################
-
-hostapd: LIB_COMMON_DIR = "../src/messaging"
-hostapd: LIB_FUNCS_COMMON_DIR = "../src/ethanol_functions"
+# Linking libraries of hostapd and ethanol (if ETHANOL_ENABLED set in .config
+# Libraries from src/ini are in another part
+# ############################################################################
+#
 hostapd: $(BCHECK) $(OBJS)
-	$(MAKE) -C ../src
-	$(eval OBJS_LIB:=`ls $(LIB_COMMON_DIR)/*.o | grep -v main`)
-	$(eval OBJS_FUNCS_LIB:=`ls $(LIB_FUNCS_COMMON_DIR)/*.o | grep -v teste`)
-#	@echo "  LIB_COMMON_DIR " $(LIB_COMMON_DIR)
-#	@echo "  OBJS_LIB " $(OBJS_LIB)
-	$(eval LIB_COMMON +=$(OBJS_LIB))
-	$(eval LIB_COMMON +=$(OBJS_FUNCS_LIB))
-# -liw para carregar as bibliotecas do iwlib
-# -lm para carregar as bibliotecas de math.h
-	$(eval LIBS_ETHANOL = $(LIB_COMMON) -lcurl -lnl -lpthread -lm -liw)
-#	@echo "  LIBS_ETHANOL " $(LIBS_ETHANOL)
-#	@$(E) "  > " $(LDFLAGS) -o hostapd $(OBJS) $(LIBS) $(LIBS_ETHANOL)
+	$(Q)$(CC) $(LDFLAGS) -o hostapd $(OBJS) $(LIBS)
 	@$(E) "  LD " $@
-	$(Q)$(CC) $(LDFLAGS) -o hostapd $(OBJS) $(LIBS) $(LIBS_ETHANOL)
-
-# ** ORIGINAL
-#hostapd: $(BCHECK) $(OBJS)
-#	$(Q)$(CC) $(LDFLAGS) -o hostapd $(OBJS) $(LIBS)
-#	@$(E) "  LD " $@
+#ifeq ("$(ETHANOL_ENABLED)", "y")
+ifdef ETHANOL_ENABLED
+	@echo " HOSTAPD COMPILADO COM *** ETHANOL *** "
+endif
 
 ifdef CONFIG_WPA_TRACE
 OBJS_c += ../src/utils/trace.o
@@ -1182,8 +1308,3 @@ clean:
 	rm -rf lcov-html
 
 -include $(OBJS:%.o=%.d)
-
-
-ethanol: CFLAGS += -DETHANOL
-ethanol: all
-	@$(E) " HOSTAPD COMPILADO COM *** ETHANOL *** "

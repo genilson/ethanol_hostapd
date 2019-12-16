@@ -8,80 +8,49 @@
 #include "ap/global_var.h"
 
 
-struct hostapd_is_80211e_enabled {
-  char * intf_name;
-  bool enabled;
-  struct hostapd_is_80211e_enabled * next;  
-};
+////////////////////////////////////////////////
+//Create a function to enable/disable 802.11e //
+////////////////////////////////////////////////
 
-struct hostapd_is_80211e_enabled * h = NULL;
-
-/*
-  Fazer um hook dentro de config_file.c para atualizar esta lista.
-  procedimento hostapd_config_fill configura peerkey para cada interface
-
-  check if "wme_enabled" or "wmm_enabled"
-
-  Cada interface cria uma entrada na lista
-*/
-void set_if_hostapd_is_80211e_enabled(char * intf_name, bool value) {
-  struct hostapd_is_80211e_enabled * p = h;
-  while ((p != NULL) && (strcmp(p->intf_name, intf_name) != 0)) p = p->next;
-  if (p != NULL) {
-    p->enabled = value; // change value
-  } else {
-    struct hostapd_is_80211e_enabled * entry = malloc(sizeof(struct hostapd_is_80211e_enabled));
-    entry->intf_name =  malloc((strlen(intf_name)+1)*sizeof(char));
-    strcpy(entry->intf_name, intf_name);
-    entry->enabled = value;
-    entry->next = h;
-    h = entry;
-  }
-}
-
-/** frees the list */
-void free_hostapd_is_80211e_enabled() {
-  struct hostapd_is_80211e_enabled * p = h;
-  while (p != NULL) {
-    h = p->next;
-    if (p->intf_name) free(p->intf_name);
-    free(p);
-    p = h;
-  }
-  h = NULL;
-}
-
-/*
-  hostapd_global_ctrl_iface_init(struct hapd_interfaces *interface)
-  para conseguir ter acesso a interfaces
-
-  // segundo parâmetro de hostapd_set_iface : hapd->conf = bss
-  // hostapd_ctrl_iface_receive(eloop_ctx) --> struct hostapd_data *hapd = eloop_ctx;
-  // hostapd_ctrl_iface_init(struct hostapd_data *hapd)
-
- 
-bool is_80211e_enabled(char * intf_name){
-  struct hostapd_is_80211e_enabled * p = h;
-  while ((p != NULL) && (strcmp(p->intf_name, intf_name) != 0)) p = p->next;
-  if (p != NULL) {
-    return p->enabled;//bss->peerkey == 1;
-  } else return false;
-}
-*/
-
-bool is_80211e_enabled(char * intf_name){
+/**
+ * is_802e_enabled - Check if wmm_enabled is set in hostapd config 
+ * 
+ * @param  intf_name: interface to be checked
+ * @param  ssid: one of the interfaces's SSID to be checked
+ * 
+ * Returns: true if WMM is enabled for the SSID, false if it's disabled or
+ *          either the interface or the SSID do not exist
+ *
+ * Checks if WMM is enabled for a specific BSS on a interface. Although WMM
+ * parameters are global for the interface, wether this parameters will be
+ * used or not is set per SSID.
+ */
+bool is_80211e_enabled(char * intf_name, char * ssid){
   
   struct hapd_interfaces *intfs;
+  struct hostapd_data *hapd;
+  struct hostapd_config *hapd_conf;
+  
+  // Get interfaces from hostapd
   intfs = get_had_intf();
+  hapd = hostapd_get_iface(intfs, intf_name);
 
-  //printf("Interfarce ativa?: %i\n", intfs->iface[0]->conf->last_bss->wmm_enabled);
-  /*int i;
-  for (i = 0; i < intfs->count; i++)
-  {
-    if (strcmp(*intfs[i]->conf->last_bss->iface, intf_name))
-    {
-      return *intfs[i]->conf->last_bss->wmm_enabled;
-    }
-  }*/
-  return intfs->iface[0]->conf->last_bss->wmm_enabled;
+  // If the interface was not found
+  if (hapd == NULL)
+    return false;
+
+  hapd_conf = hapd->iconf;
+
+  // If no ssid was provided, checks the last one on the interface
+  if (!ssid)
+    return hapd_conf->last_bss->wmm_enabled;
+
+  // Searching the BSS and checking if WMM is enabled for it (if found)
+  int i;
+  for (i = 0; i < hapd_conf->num_bss; i++)
+    if (strcmp((char *) hapd_conf->bss[i]->ssid.ssid, ssid) == 0)
+      return hapd_conf->bss[i]->wmm_enabled;
+
+  // If bss was not found
+  return false;
 }

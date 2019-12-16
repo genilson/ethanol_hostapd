@@ -15,8 +15,8 @@
 
 unsigned long size_msg_802_11e_enabled(struct msg_802_11e_enabled * h){
   return strlen_ethanol(h->p_version) + sizeof(h->m_type) + sizeof(h->m_size) + sizeof(h->m_id) +
-         strlen_ethanol(h->intf_name)+
-         strlen_ethanol(h->sta_ip)+ sizeof(h->sta_port)+
+         strlen_ethanol(h->intf_name) + strlen_ethanol(h->ssid) +
+         strlen_ethanol(h->sta_ip)+ sizeof(h->sta_port) +
          bool_len_ethanol();
 }
 
@@ -27,6 +27,7 @@ void encode_msg_802_11e_enabled(struct msg_802_11e_enabled * h, char ** buf, int
   h->m_size = *buf_len;
  	encode_header(&aux, h->m_type, h->m_id, h->m_size);
   encode_char(&aux, h->intf_name);
+  encode_char(&aux, h->ssid);
   encode_char(&aux, h->sta_ip);
   encode_int(&aux, h->sta_port);
   encode_bool(&aux, h->enabled);
@@ -38,6 +39,7 @@ void decode_msg_802_11e_enabled(char * buf, int buf_len, struct msg_802_11e_enab
   char * aux = buf;
  	decode_header(&aux, &(*h)->m_type, &(*h)->m_id, &(*h)->m_size, &(*h)->p_version);
   decode_char(&aux, &(*h)->intf_name);
+  decode_char(&aux, &(*h)->ssid);
   decode_char(&aux, &(*h)->sta_ip);
   decode_int(&aux, &(*h)->sta_port);
   decode_bool(&aux, &(*h)->enabled);
@@ -56,7 +58,7 @@ void process_msg_802_11e_enabled(char ** input, int input_len, char ** output, i
 
   if (h->sta_ip == NULL) {
   /**************** FUNCAO LOCAL ***************/
-    h->enabled = is_80211e_enabled(h->intf_name);    
+    h->enabled = is_80211e_enabled(h->intf_name, h->ssid); 
   /**************** FUNCAO LOCAL ***************/
   } else {
     struct msg_802_11e_enabled * h1 = send_msg_802_11e_enabled(h->sta_ip, h->sta_port, &h->m_id, h->intf_name, NULL, 0);
@@ -78,6 +80,7 @@ void printf_msg_802_11e_enabled(struct msg_802_11e_enabled * h){
   printf("Version : %s\n", h->p_version);
   printf("Msg size: %d\n", h->m_size);
   printf("Intf    : %s\n", h->intf_name);
+  printf("SSID    : %s\n", h->ssid);
   printf("Station : %s:%d\n", h->sta_ip, h->sta_port);
   printf("Enabled : %d\n", h->enabled);
 }
@@ -141,6 +144,7 @@ void free_msg_802_11e_enabled(struct msg_802_11e_enabled * m) {
   if (NULL == m) return;
   if (m->p_version) free(m->p_version);
   if (m->intf_name) free(m->intf_name);
+  if (m->ssid) free(m->ssid);
   if (m->sta_ip) free(m->sta_ip);
   free(m);
   m = NULL;

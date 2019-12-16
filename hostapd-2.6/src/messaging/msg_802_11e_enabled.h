@@ -13,6 +13,7 @@ struct msg_802_11e_enabled {
    int m_size;
    
    char * intf_name;
+   char * ssid;
    char * sta_ip;
    int sta_port;
    bool enabled;
@@ -24,7 +25,8 @@ void process_msg_802_11e_enabled(char ** input, int input_len, char ** output, i
    generates MSG_GET_802_11E_ENABLED message
     returns if station is capable of 801.11e features
  */
-struct msg_802_11e_enabled * send_msg_802_11e_enabled(char * hostname, int portnum, int * id, char * intf_name, char * sta_ip, int sta_port);
+struct msg_802_11e_enabled * send_msg_802_11e_enabled(char * hostname, int portnum, int * id,
+                                                      char * intf_name, char * sta_ip, int sta_port);
 
 void free_msg_802_11e_enabled(struct msg_802_11e_enabled * m);
 

@@ -1,9 +1,6 @@
 #
-# $make:
-#  produces an unmodified version of hostapd
-#
-# $make ethanol:
-#  produces a modified version of hostapd embedded with ethanol server and internal hooks
+# In order to compile and link ethanol libraries, set ETHANOL_ENABLED=y
+# in the .config file
 #
 ifndef CC
 CC=gcc
@@ -197,6 +194,7 @@ OBJS+= ../src/messaging/msg_station_trigger_transition.o
 OBJS+= ../src/messaging/msg_tos.o
 OBJS+= ../src/messaging/msg_mtu.o
 OBJS+= ../src/messaging/msg_txqueuelen.o
+OBJS+= ../src/messaging/msg_wmm_params.o
 #
 #
 #Ethanol_Functions

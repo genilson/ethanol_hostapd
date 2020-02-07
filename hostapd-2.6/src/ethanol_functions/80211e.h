@@ -27,12 +27,15 @@
 #define __80211_H
 
 #include <stdbool.h>
+#include <stdio.h>
 
 /**
    @return if interface "intf_name" is 802.11e enabled
            if interface is not found, returns false
  */
 bool is_80211e_enabled(char * intf_name, char * ssid);
+
+struct hostapd_wmm_ac_params *get_wmm_ac_param(char *intf_name);
 
 /**
    called by a hook inside config_file.c

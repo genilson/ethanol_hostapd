@@ -10,6 +10,7 @@
 #define IEEE802_11_COMMON_H
 
 #include "defs.h"
+#include "utils/common.h"
 
 #define MAX_NOF_MB_IES_SUPPORTED 5
 

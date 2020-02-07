@@ -100,6 +100,7 @@
 #include "msg_tos.h"
 #include "msg_mtu.h"
 #include "msg_txqueuelen.h"
+#include "msg_wmm_params.h"
 
 
 #define DEBUG_SERVLET
@@ -235,7 +236,7 @@ void servlet(SSL* ssl, char * client_addr, int client_port, int client_socket) {
 
         case MSG_GET_802_11E_ENABLED:
           #ifdef DEBUG_SERVLET
-             printf("Receiving STATION_GET_802_11E message from %s\n", client_addr);
+              printf("Receiving MSG_GET_802_11E_ENABLED message from %s\n", client_addr);
           #endif
           process_msg_802_11e_enabled(&input_msg, input_len, &reply, &reply_len);
           break;
@@ -786,12 +787,36 @@ void servlet(SSL* ssl, char * client_addr, int client_port, int client_socket) {
             break;
 
         case MSG_MEAN_STA_STATISTICS_GET:
+            #ifdef DEBUG_SERVLET
+               printf("Receiving MSG_MEAN_STA_STATISTICS_GET message from %s\n", client_addr);
+            #endif
+            process_msg_changed_ap(&input_msg, input_len, &reply, &reply_len);
+            break;
+
         case MSG_MEAN_STA_STATISTICS_SET_INTERFACE:
+            #ifdef DEBUG_SERVLET
+               printf("Receiving MSG_MEAN_STA_STATISTICS_SET_INTERFACE message from %s\n", client_addr);
+            #endif
+            process_msg_changed_ap(&input_msg, input_len, &reply, &reply_len);
+            break;
+
         case MSG_MEAN_STA_STATISTICS_REMOVE_INTERFACE:
+            #ifdef DEBUG_SERVLET
+               printf("Receiving MSG_MEAN_STA_STATISTICS_REMOVE_INTERFACE message from %s\n", client_addr);
+            #endif
+            process_msg_changed_ap(&input_msg, input_len, &reply, &reply_len);
+            break;
+
         case MSG_MEAN_STA_STATISTICS_SET_ALPHA:
+            #ifdef DEBUG_SERVLET
+               printf("Receiving MSG_MEAN_STA_STATISTICS_SET_ALPHA message from %s\n", client_addr);
+            #endif
+            process_msg_changed_ap(&input_msg, input_len, &reply, &reply_len);
+            break;
+
         case MSG_MEAN_STA_STATISTICS_SET_TIME:
             #ifdef DEBUG_SERVLET
-               printf("Receiving MSG_MEAN_STA_STATISTICS message from %s\n", client_addr);
+               printf("Receiving MSG_MEAN_STA_STATISTICS_SET_TIME message from %s\n", client_addr);
             #endif
             process_msg_mean_sta_statistics(&input_msg, input_len, &reply, &reply_len);
             break;
@@ -819,7 +844,7 @@ void servlet(SSL* ssl, char * client_addr, int client_port, int client_socket) {
 
         case MSG_TOS_REPLACE:
             #ifdef DEBUG_SERVLET
-               printf("Receiving MSG_TOS_REPLACE message from %s\n", client_addr);
+                printf("Receiving MSG_TOS_REPLACE message from %s\n", client_addr);
             #endif
             process_msg_tos_replace(&input_msg, input_len, &reply, &reply_len);
             break;
@@ -838,9 +863,41 @@ void servlet(SSL* ssl, char * client_addr, int client_port, int client_socket) {
             process_msg_set_txqueuelen(&input_msg, input_len, &reply, &reply_len);
             break;
 
+        case MSG_GET_HOSTAPD_CONF:
+            #ifdef DEBUG_SERVLET
+               printf("Receiving MSG_GET_HOSTAPD_CONF message from %s\n", client_addr);
+            #endif
+            break;
+        case MSG_SET_HOSTAPD_CONF:
+            #ifdef DEBUG_SERVLET
+               printf("Receiving MSG_SET_HOSTAPD_CONF message from %s\n", client_addr);
+            #endif
+            break;
+        case MSG_GET_QUEUE_PARAMS:
+            #ifdef DEBUG_SERVLET
+               printf("Receiving MSG_GET_QUEUE_PARAMS message from %s\n", client_addr);
+            #endif
+            break;
+        case MSG_SET_QUEUE_PARAMS:
+            #ifdef DEBUG_SERVLET
+               printf("Receiving MSG_SET_QUEUE_PARAMS message from %s\n", client_addr);
+            #endif
+            break;
+        case MSG_GET_WMM_PARAMS:
+            #ifdef DEBUG_SERVLET
+                printf("Receiving MSG_GET_WMM_PARAMS message from %s\n", client_addr);
+                process_msg_wmm_params(&input_msg, input_len, &reply, &reply_len);
+            #endif
+            break;
+        case MSG_SET_WMM_PARAMS:
+            #ifdef DEBUG_SERVLET
+                printf("Receiving MSG_SET_WMM_PARAMS message from %s\n", client_addr);
+            #endif
+            break;
+
         default:  //unknown messages
           #ifdef DEBUG_SERVLET
-          printf("Receiving error message to %s\n", client_addr);
+              printf("Receiving error message to %s\n", client_addr);
           #endif
           return_error_msg_struct(msg_type, ERROR_UNKNOWN, m_id, &reply, &reply_len);
           break;

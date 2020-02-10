@@ -15,15 +15,24 @@ unsigned int msg_size_wmm_params(struct msg_wmm_params * h){
 		sizeof(h->m_size) +
 		strlen_ethanol(h->sta_ip) +
 		sizeof(h->sta_port) +
-		strlen_ethanol(h->intf_name);
+		strlen_ethanol(h->intf_name) +
+		sizeof(h->ac);
 
-	int i;
-	for (i = 0; i < 4; i++){
-		size += sizeof(h->wmm_ac_params[i].aifs) +
-				sizeof(h->wmm_ac_params[i].cwmin) +
-			    sizeof(h->wmm_ac_params[i].cwmax) +
-			    sizeof(h->wmm_ac_params[i].txop_limit) +
-			    sizeof(h->wmm_ac_params[i].admission_control_mandatory);
+	if (h->ac >= 0 && h->ac <= 3){
+		size += sizeof(h->wmm_ac_params->aifs) +
+				sizeof(h->wmm_ac_params->cwmin) +
+			    sizeof(h->wmm_ac_params->cwmax) +
+			    sizeof(h->wmm_ac_params->txop_limit) +
+			    sizeof(h->wmm_ac_params->admission_control_mandatory);
+	}else if (h->ac == -1){
+		int i;
+		for (i = 0; i < 4; i++){
+			size += sizeof(h->wmm_ac_params[i].aifs) +
+					sizeof(h->wmm_ac_params[i].cwmin) +
+				    sizeof(h->wmm_ac_params[i].cwmax) +
+				    sizeof(h->wmm_ac_params[i].txop_limit) +
+				    sizeof(h->wmm_ac_params[i].admission_control_mandatory);
+		}
 	}
 
 	return size;
@@ -36,19 +45,32 @@ void print_msg_wmm_params(struct msg_wmm_params *h){
 	printf("Msg size : %d\n", h->m_size);
 	printf("Station  : %s:%d\n", h->sta_ip, h->sta_port);
 	printf("Interface: %s\n", h->intf_name);
+	printf("AC: %i\n", h->ac);
 
 	//For printing
 	char *categories[] = {"Best Effort", "Background", "Video", "Voice"};
 	
-	int i;
-	for(i=0; i < 4; i++) {
-		printf("Category : %s\n", categories[i]);
-		printf("	       AIFS: %i\n", h->wmm_ac_params[i].aifs);
-		printf("	       CWmin: %i\n", h->wmm_ac_params[i].cwmin);
-		printf("	       CWmax: %i\n", h->wmm_ac_params[i].cwmax);
-		printf("           TXOP Limit: %i\n", h->wmm_ac_params[i].txop_limit);
+	if (h->ac >= 0 && h->ac <= 3){
+	// Printing parameters of selected access category
+		printf("Category : %s\n", categories[h->ac]);
+		printf("	       AIFS: %i\n", h->wmm_ac_params->aifs);
+		printf("	       CWmin: %i\n", h->wmm_ac_params->cwmin);
+		printf("	       CWmax: %i\n", h->wmm_ac_params->cwmax);
+		printf("           TXOP Limit: %i\n", h->wmm_ac_params->txop_limit);
 		printf("	       Admission Control Mandatory: %i\n",
-			h->wmm_ac_params[i].admission_control_mandatory);
+			h->wmm_ac_params->admission_control_mandatory);
+	}else if (h->ac == -1){
+	// Printing parameters of all access categories
+		int i;
+		for(i=0; i < 4; i++) {
+			printf("Category : %s\n", categories[i]);
+			printf("	       AIFS: %i\n", h->wmm_ac_params[i].aifs);
+			printf("	       CWmin: %i\n", h->wmm_ac_params[i].cwmin);
+			printf("	       CWmax: %i\n", h->wmm_ac_params[i].cwmax);
+			printf("           TXOP Limit: %i\n", h->wmm_ac_params[i].txop_limit);
+			printf("	       Admission Control Mandatory: %i\n",
+				h->wmm_ac_params[i].admission_control_mandatory);
+		}
 	}
 }
 
@@ -63,35 +85,57 @@ void encode_msg_wmm_params(struct msg_wmm_params *h, char **buf, int *buf_len) {
 	encode_char(&aux, h->sta_ip);
 	encode_int(&aux, h->sta_port);
 	encode_char(&aux, h->intf_name);
-	
-	int ac;
-	for(ac = 0; ac < 4; ac++) { //4 ACs
-		encode_int(&aux, h->wmm_ac_params[ac].aifs);
-		encode_int(&aux, h->wmm_ac_params[ac].cwmin);
-		encode_int(&aux, h->wmm_ac_params[ac].cwmax);
-		encode_int(&aux, h->wmm_ac_params[ac].txop_limit);
-		encode_int(&aux, h->wmm_ac_params[ac].admission_control_mandatory);
+	encode_int(&aux, h->ac);
+
+	if (h->ac >= 0 && h->ac <= 3){
+		encode_int(&aux, h->wmm_ac_params->aifs);
+		encode_int(&aux, h->wmm_ac_params->cwmin);
+		encode_int(&aux, h->wmm_ac_params->cwmax);
+		encode_int(&aux, h->wmm_ac_params->txop_limit);
+		encode_int(&aux, h->wmm_ac_params->admission_control_mandatory);
+	}else if (h->ac == -1){
+		int i;
+		for(i = 0; i < 4; i++) { //4 ACs
+			encode_int(&aux, h->wmm_ac_params[i].aifs);
+			encode_int(&aux, h->wmm_ac_params[i].cwmin);
+			encode_int(&aux, h->wmm_ac_params[i].cwmax);
+			encode_int(&aux, h->wmm_ac_params[i].txop_limit);
+			encode_int(&aux, h->wmm_ac_params[i].admission_control_mandatory);
+		}
 	}
 }
 
 void decode_msg_wmm_params(char *buf, int buf_len, struct msg_wmm_params **h) {
+	// Allocating space for the metadata
 	*h = malloc(sizeof(struct msg_wmm_params));
-	(*h)->wmm_ac_params = malloc(4 * sizeof(struct hostapd_wmm_ac_params));
 
 	char *aux = buf;
 	decode_header(&aux, &(*h)->m_type, &(*h)->m_id,  &(*h)->m_size, &(*h)->p_version);
-		decode_char(&aux, &(*h)->sta_ip);
-		decode_int(&aux, &(*h)->sta_port);
-		decode_char(&aux, &(*h)->intf_name);
+	decode_char(&aux, &(*h)->sta_ip);
+	decode_int(&aux, &(*h)->sta_port);
+	decode_char(&aux, &(*h)->intf_name);
+	decode_int(&aux, &(*h)->ac);
 
-		int ac;
-		for (ac = 0; ac < 4; ac++){ //4 ACs
-			decode_int(&aux, &(*h)->wmm_ac_params[ac].aifs);
-			decode_int(&aux, &(*h)->wmm_ac_params[ac].cwmin);
-			decode_int(&aux, &(*h)->wmm_ac_params[ac].cwmax);
-			decode_int(&aux, &(*h)->wmm_ac_params[ac].txop_limit);
-			decode_int(&aux, &(*h)->wmm_ac_params[ac].admission_control_mandatory);
+	//Allocating space accordingly and decoding the payload
+	if ((*h)->ac >= 0 && (*h)->ac <= 3){
+		(*h)->wmm_ac_params = malloc(sizeof(struct hostapd_wmm_ac_params));
+		decode_int(&aux, &(*h)->wmm_ac_params->aifs);
+		decode_int(&aux, &(*h)->wmm_ac_params->cwmin);
+		decode_int(&aux, &(*h)->wmm_ac_params->cwmax);
+		decode_int(&aux, &(*h)->wmm_ac_params->txop_limit);
+		decode_int(&aux, &(*h)->wmm_ac_params->admission_control_mandatory);
+	}else if ((*h)->ac == -1){
+		(*h)->wmm_ac_params = malloc(4 * sizeof(struct hostapd_wmm_ac_params));
+
+		int i;
+		for (i = 0; i < 4; i++){ //4 ACs
+			decode_int(&aux, &(*h)->wmm_ac_params[i].aifs);
+			decode_int(&aux, &(*h)->wmm_ac_params[i].cwmin);
+			decode_int(&aux, &(*h)->wmm_ac_params[i].cwmax);
+			decode_int(&aux, &(*h)->wmm_ac_params[i].txop_limit);
+			decode_int(&aux, &(*h)->wmm_ac_params[i].admission_control_mandatory);
 		}
+	}
 }
 
 
@@ -114,10 +158,13 @@ void process_msg_wmm_params(char **input, int input_len, char **output, int *out
 	ac_params = get_wmm_ac_param(h->intf_name);
 
 	if (h->m_type == MSG_GET_WMM_PARAMS){
-
-		int i;
-		for (i = 0; i < 4; i++)
-			h->wmm_ac_params[i] = ac_params[i];
+		if (h->ac >= 0 && h->ac <=3){
+			h->wmm_ac_params = &ac_params[h->ac];
+		}else if (h->ac == -1){
+			int i;
+			for (i = 0; i < 4; i++)
+				h->wmm_ac_params[i] = ac_params[i];
+		}
 
 		print_msg_wmm_params(h);
 

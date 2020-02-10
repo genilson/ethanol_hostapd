@@ -16,7 +16,10 @@ struct msg_wmm_params{
 	char * sta_ip; // if sta_ip == NULL grab local wlan information
 	int sta_port;  // if not, call the station identified by (sta_ip:sta_port)
 	char *intf_name;
-	struct hostapd_wmm_ac_params *wmm_ac_params; //Number of ACs is 4
+	int ac; // -1 if parameters of all access categories should be queried,
+			// access category index otherwise (0 to 3)
+	
+	struct hostapd_wmm_ac_params *wmm_ac_params; 
 };
 
 void process_msg_wmm_params(char **input, int input_len, char **output, int *output_len);

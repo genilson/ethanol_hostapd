@@ -892,6 +892,7 @@ void servlet(SSL* ssl, char * client_addr, int client_port, int client_socket) {
         case MSG_SET_WMM_PARAMS:
             #ifdef DEBUG_SERVLET
                 printf("Receiving MSG_SET_WMM_PARAMS message from %s\n", client_addr);
+                process_msg_wmm_params(&input_msg, input_len, &reply, &reply_len);
             #endif
             break;
 

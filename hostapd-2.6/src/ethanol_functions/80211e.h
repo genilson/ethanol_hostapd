@@ -35,7 +35,10 @@
  */
 bool is_80211e_enabled(char * intf_name, char * ssid);
 
-struct hostapd_wmm_ac_params *get_wmm_ac_param(char *intf_name);
+struct hostapd_wmm_ac_params *get_wmm_ac_params(char *intf_name);
+
+void set_wmm_ac_params(char *intf_name, int ac,
+   struct hostapd_wmm_ac_params *ac_params);
 
 /**
    called by a hook inside config_file.c

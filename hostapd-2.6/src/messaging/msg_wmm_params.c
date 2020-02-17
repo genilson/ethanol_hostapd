@@ -125,6 +125,7 @@ void decode_msg_wmm_params(char *buf, int buf_len, struct msg_wmm_params **h) {
 		decode_int(&aux, &(*h)->wmm_ac_params->txop_limit);
 		decode_int(&aux, &(*h)->wmm_ac_params->admission_control_mandatory);
 	}else if ((*h)->ac == -1){
+
 		(*h)->wmm_ac_params = malloc(4 * sizeof(struct hostapd_wmm_ac_params));
 
 		int i;
@@ -138,16 +139,6 @@ void decode_msg_wmm_params(char *buf, int buf_len, struct msg_wmm_params **h) {
 	}
 }
 
-
-//Passos:
-//- Decodificar a mensagem
-//- Pegar informação de qual interface deseja-se fazer a consulta
-//- Consultar a informação no struct do hostpad, preencher o struct
-//- Encodar a mensagem
-//- Enviar resposta para o solicitante
-//- Se tipo de mensagem for para alterar parâmetros, alterar no struct atual
-//
-
 void process_msg_wmm_params(char **input, int input_len, char **output, int *output_len){
 	
 	struct msg_wmm_params *h;
@@ -155,38 +146,54 @@ void process_msg_wmm_params(char **input, int input_len, char **output, int *out
 
 	decode_msg_wmm_params(*input, input_len, &h);
 
-	ac_params = get_wmm_ac_param(h->intf_name);
+	ac_params = get_wmm_ac_params(h->intf_name);
 
 	if (h->m_type == MSG_GET_WMM_PARAMS){
+		// If an AC was provided, only its parameters values will be sent on
+		// the response
 		if (h->ac >= 0 && h->ac <=3){
-			h->wmm_ac_params = &ac_params[h->ac];
+			h->wmm_ac_params->aifs = ac_params[h->ac].aifs;
+			h->wmm_ac_params->cwmin = ac_params[h->ac].cwmin;
+			h->wmm_ac_params->cwmax = ac_params[h->ac].cwmax;
+			h->wmm_ac_params->txop_limit = ac_params[h->ac].txop_limit;
+			h->wmm_ac_params->admission_control_mandatory =
+				ac_params[h->ac].admission_control_mandatory;
+		// Otherwise all the parameters values of the 4 AC will be sent to the
+		// controller
 		}else if (h->ac == -1){
 			int i;
-			for (i = 0; i < 4; i++)
-				h->wmm_ac_params[i] = ac_params[i];
+			for (i = 0; i < 4; i++){
+				h->wmm_ac_params[i].aifs = ac_params[i].aifs;
+				h->wmm_ac_params[i].cwmin = ac_params[i].cwmin;
+				h->wmm_ac_params[i].cwmax = ac_params[i].cwmax;
+				h->wmm_ac_params[i].txop_limit = ac_params[i].txop_limit;
+				h->wmm_ac_params[i].admission_control_mandatory =
+					ac_params[i].admission_control_mandatory;
+			}
 		}
-
-		print_msg_wmm_params(h);
+		
+		//Check debug options
+		//#ifdef DEBUG
+			print_msg_wmm_params(h);
+		//#endif
 
 		encode_msg_wmm_params(h, output, output_len);
+
+		free_msg_wmm_params(h);
+
 	}else if (h->m_type == MSG_SET_WMM_PARAMS){
-		
-		// Check parameters with positive or zero values and change them on the
-		// interface
-		// Call function to set params.
-		//void set_wmm_ac_param(char *intf_name, int ac, int aifs, int cwmin, int cwmax, int txop, int adm_control);
+		// Setting parameters is done one AC at a time.
+		set_wmm_ac_params(h->intf_name, h->ac, h->wmm_ac_params);
 	}
 }
 
-void free_msg_wmm_params(struct msg_wmm_params **p) {
+void free_msg_wmm_params(struct msg_wmm_params *p) {
 	if (p == NULL) return;
-	if (*p == NULL) return;
-	if ((*p)->p_version) free((*p)->p_version);
-	if ((*p)->sta_ip) free((*p)->sta_ip);
-	if ((*p)->intf_name) free((*p)->intf_name);
+	if (p->p_version) free(p->p_version);
+	if (p->sta_ip) free(p->sta_ip);
+	if (p->intf_name) free(p->intf_name);
+	if (p->wmm_ac_params) free(p->wmm_ac_params);
 
-	//clear params mem space
-
-	free(*p);
-	*p = NULL;
+	free(p);
+	p = NULL;
 }

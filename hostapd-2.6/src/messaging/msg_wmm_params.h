@@ -24,7 +24,7 @@ struct msg_wmm_params{
 
 void process_msg_wmm_params(char **input, int input_len, char **output, int *output_len);
 
-void free_msg_wmm_params(struct msg_wmm_params **p);
+void free_msg_wmm_params(struct msg_wmm_params *p);
 
 void print_msg_wmm_params(struct msg_wmm_params *p);
 

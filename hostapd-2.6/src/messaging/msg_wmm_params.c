@@ -3,6 +3,8 @@
 #include "common/ieee802_11_common.h"
 #include "ethanol_functions/80211e.h"
 #include "messaging/msg_common.h"
+#include "openssl/ssl.h"
+#include "ssl_common.h"
 
 unsigned int msg_size_wmm_params(struct msg_wmm_params * h){
 
@@ -174,7 +176,7 @@ void process_msg_wmm_params(char **input, int input_len, char **output, int *out
 		
 		//Check debug options
 		//#ifdef DEBUG
-			print_msg_wmm_params(h);
+		print_msg_wmm_params(h);
 		//#endif
 
 		encode_msg_wmm_params(h, output, output_len);
@@ -183,7 +185,10 @@ void process_msg_wmm_params(char **input, int input_len, char **output, int *out
 
 	}else if (h->m_type == MSG_SET_WMM_PARAMS){
 		// Setting parameters is done one AC at a time.
+		// No response sent to server
+		print_msg_wmm_params(h);
 		set_wmm_ac_params(h->intf_name, h->ac, h->wmm_ac_params);
+		free(h);
 	}
 }
 

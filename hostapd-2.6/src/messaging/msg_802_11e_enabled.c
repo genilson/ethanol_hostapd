@@ -61,16 +61,14 @@ void process_msg_802_11e_enabled(char ** input, int input_len, char ** output, i
     h->enabled = is_80211e_enabled(h->intf_name, h->ssid); 
   /**************** FUNCAO LOCAL ***************/
   } else {
-    struct msg_802_11e_enabled * h1 = send_msg_802_11e_enabled(h->sta_ip, h->sta_port, &h->m_id, h->intf_name, NULL, 0);
+    struct msg_802_11e_enabled * h1 = send_msg_802_11e_enabled(h->sta_ip,
+        h->sta_port, &h->m_id, h->intf_name, h->ssid, NULL, 0);
     if (h1 != NULL) {
       h->enabled = h1->enabled;
     }
     free_msg_802_11e_enabled(h1);
   }
-
-  // fazer o encode a partir daqui
   encode_msg_802_11e_enabled(h, output, output_len);
-	//Liberar a memoria alocada para h
   free_msg_802_11e_enabled(h);
 }
 
@@ -85,11 +83,10 @@ void printf_msg_802_11e_enabled(struct msg_802_11e_enabled * h){
   printf("Enabled : %d\n", h->enabled);
 }
 
-/*
- *
- *
- */
-struct msg_802_11e_enabled * send_msg_802_11e_enabled(char * hostname, int portnum, int * id, char * intf_name, char * sta_ip, int sta_port) {
+struct msg_802_11e_enabled * send_msg_802_11e_enabled(char * hostname,
+    int portnum, int * id, char * intf_name, char * ssid, char * sta_ip,
+    int sta_port) {
+
   struct ssl_connection h_ssl;
   struct msg_802_11e_enabled * h1 = NULL;
   // << step 1 - get connection
@@ -106,6 +103,8 @@ struct msg_802_11e_enabled * send_msg_802_11e_enabled(char * hostname, int portn
     copy_string(&h.p_version, ETHANOL_VERSION);
     h.intf_name = NULL;
     copy_string(&h.intf_name, intf_name);
+    h.ssid = NULL;
+    copy_string(&h.ssid, ssid);
     h.sta_ip = NULL;
     copy_string(&h.sta_ip, sta_ip);
     h.sta_port = sta_port;
@@ -131,9 +130,11 @@ struct msg_802_11e_enabled * send_msg_802_11e_enabled(char * hostname, int portn
         printf_msg_802_11e_enabled(h1);
       #endif
     }
-    if (h.p_version) free( h.p_version );
+    /**if (h.p_version) free( h.p_version );
     if (h.intf_name) free( h.intf_name);
-    if (h.sta_ip) free( h.sta_ip);
+    if (h.ssid) free(h.ssid);
+    if (h.sta_ip) free( h.sta_ip);**/
+    free_msg_802_11e_enabled(h);
     free(buffer); /* release buffer area allocated in encode_msg_802_11e_enabled() */
   }
   close_ssl_connection(&h_ssl); // last step - close connection

@@ -907,6 +907,7 @@ void servlet(SSL* ssl, char * client_addr, int client_port, int client_socket) {
         // reply == NULL means this is an asynchronous request message
         // don't have to send back a response to the client
         SSL_write(ssl, reply, reply_len); /* send reply */
+        free(reply);
     } else ERR_print_errors_fp(stderr);
   }
   sd = SSL_get_fd(ssl);       /* get socket connection */

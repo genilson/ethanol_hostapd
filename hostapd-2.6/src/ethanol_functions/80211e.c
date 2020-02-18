@@ -113,9 +113,9 @@ void set_wmm_ac_params(char *intf_name, int ac,
 	}else{
 		hapd_conf = hapd->iconf;
 
-		// Validation of params is done in the controller, avoiding the 
-		// overhead of unnecessary messages. A -1 value indicates that the
-		// parameters must not be updated
+		// Parameters are validated by the controller, avoiding the overhead of
+		// unnecessary messages. A -1 value indicates that the parameters must
+		// not be updated
 
 		struct hostapd_wmm_ac_params *current_params = &hapd_conf->wmm_ac_params[ac];
 
